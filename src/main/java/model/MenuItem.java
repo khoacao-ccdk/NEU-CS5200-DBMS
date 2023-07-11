@@ -70,26 +70,6 @@ public class MenuItem {
         this.categoryId = categoryId;
     }
 
-    public MenuItem itemId(int itemId) {
-        setItemId(itemId);
-        return this;
-    }
-
-    public MenuItem itemName(String itemName) {
-        setItemName(itemName);
-        return this;
-    }
-
-    public MenuItem itemPrice(double itemPrice) {
-        setItemPrice(itemPrice);
-        return this;
-    }
-
-    public MenuItem categoryId(int categoryId) {
-        setCategoryId(categoryId);
-        return this;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (o == this)

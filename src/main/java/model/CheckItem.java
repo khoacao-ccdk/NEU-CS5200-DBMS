@@ -151,56 +151,6 @@ public class CheckItem {
         this.parentModifierId = parentModifierId;
     }
 
-    public CheckItem checkItemId(int checkItemId) {
-        setCheckItemId(checkItemId);
-        return this;
-    }
-
-    public CheckItem checkId(int checkId) {
-        setCheckId(checkId);
-        return this;
-    }
-
-    public CheckItem date(Date date) {
-        setDate(date);
-        return this;
-    }
-
-    public CheckItem itemId(int itemId) {
-        setItemId(itemId);
-        return this;
-    }
-
-    public CheckItem timeCreated(Timestamp timeCreated) {
-        setTimeCreated(timeCreated);
-        return this;
-    }
-
-    public CheckItem orderModeId(int orderModeId) {
-        setOrderModeId(orderModeId);
-        return this;
-    }
-
-    public CheckItem quantity(int quantity) {
-        setQuantity(quantity);
-        return this;
-    }
-
-    public CheckItem refundQuantity(int refundQuantity) {
-        setRefundQuantity(refundQuantity);
-        return this;
-    }
-
-    public CheckItem employeeId(int employeeId) {
-        setEmployeeId(employeeId);
-        return this;
-    }
-
-    public CheckItem parentModifierId(int parentModifierId) {
-        setParentModifierId(parentModifierId);
-        return this;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (o == this)

@@ -16,11 +16,11 @@ public class Check {
     private int employeeId;
     private String tableDesc;
     private int guestCount;
+    private int itemCount;
     private double netSales;
     private double comps;
     private double promo; 
     private double tax;
-    private int paymentId;
     private Time timeOpen;
     private Time timeClose;
 
@@ -32,6 +32,7 @@ public class Check {
      * @param employeeId
      * @param tableDesc
      * @param guestCount
+     * @param itemCount
      * @param netSales
      * @param comps
      * @param promo
@@ -40,18 +41,18 @@ public class Check {
      * @param timeOpen
      * @param timeClose
      */
-    public Check(int checkId, Date date, int revCenterId, int employeeId, String tableDesc, int guestCount, double netSales, double comps, double promo, double tax, int paymentId, Time timeOpen, Time timeClose) {
+    public Check(int checkId, Date date, int revCenterId, int employeeId, String tableDesc, int guestCount, int itemCount, double netSales, double comps, double promo, double tax, Time timeOpen, Time timeClose) {
         this.checkId = checkId;
         this.date = date;
         this.revCenterId = revCenterId;
         this.employeeId = employeeId;
         this.tableDesc = tableDesc;
         this.guestCount = guestCount;
+        this.itemCount = itemCount;
         this.netSales = netSales;
         this.comps = comps;
         this.promo = promo;
         this.tax = tax;
-        this.paymentId = paymentId;
         this.timeOpen = timeOpen;
         this.timeClose = timeClose;
     }
@@ -104,6 +105,14 @@ public class Check {
         this.guestCount = guestCount;
     }
 
+    public int getItemCount() {
+        return this.itemCount;
+    }
+
+    public void setItemCount(int itemCount) {
+        this.itemCount = itemCount;
+    }
+
     public double getNetSales() {
         return this.netSales;
     }
@@ -136,14 +145,6 @@ public class Check {
         this.tax = tax;
     }
 
-    public int getPaymentId() {
-        return this.paymentId;
-    }
-
-    public void setPaymentId(int paymentId) {
-        this.paymentId = paymentId;
-    }
-
     public Time getTimeOpen() {
         return this.timeOpen;
     }
@@ -160,71 +161,6 @@ public class Check {
         this.timeClose = timeClose;
     }
 
-    public Check checkId(int checkId) {
-        setCheckId(checkId);
-        return this;
-    }
-
-    public Check date(Date date) {
-        setDate(date);
-        return this;
-    }
-
-    public Check revCenterId(int revCenterId) {
-        setRevCenterId(revCenterId);
-        return this;
-    }
-
-    public Check employeeId(int employeeId) {
-        setEmployeeId(employeeId);
-        return this;
-    }
-
-    public Check tableDesc(String tableDesc) {
-        setTableDesc(tableDesc);
-        return this;
-    }
-
-    public Check guestCount(int guestCount) {
-        setGuestCount(guestCount);
-        return this;
-    }
-
-    public Check netSales(double netSales) {
-        setNetSales(netSales);
-        return this;
-    }
-
-    public Check comps(double comps) {
-        setComps(comps);
-        return this;
-    }
-
-    public Check promo(double promo) {
-        setPromo(promo);
-        return this;
-    }
-
-    public Check tax(double tax) {
-        setTax(tax);
-        return this;
-    }
-
-    public Check paymentId(int paymentId) {
-        setPaymentId(paymentId);
-        return this;
-    }
-
-    public Check timeOpen(Time timeOpen) {
-        setTimeOpen(timeOpen);
-        return this;
-    }
-
-    public Check timeClose(Time timeClose) {
-        setTimeClose(timeClose);
-        return this;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (o == this)
@@ -233,12 +169,12 @@ public class Check {
             return false;
         }
         Check check = (Check) o;
-        return checkId == check.checkId && Objects.equals(date, check.date) && revCenterId == check.revCenterId && employeeId == check.employeeId && Objects.equals(tableDesc, check.tableDesc) && guestCount == check.guestCount && netSales == check.netSales && comps == check.comps && promo == check.promo && tax == check.tax && paymentId == check.paymentId && Objects.equals(timeOpen, check.timeOpen) && Objects.equals(timeClose, check.timeClose);
+        return checkId == check.checkId && Objects.equals(date, check.date) && revCenterId == check.revCenterId && employeeId == check.employeeId && Objects.equals(tableDesc, check.tableDesc) && guestCount == check.guestCount && netSales == check.netSales && comps == check.comps && promo == check.promo && tax == check.tax && Objects.equals(timeOpen, check.timeOpen) && Objects.equals(timeClose, check.timeClose);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(checkId, date, revCenterId, employeeId, tableDesc, guestCount, netSales, comps, promo, tax, paymentId, timeOpen, timeClose);
+        return Objects.hash(checkId, date, revCenterId, employeeId, tableDesc, guestCount, netSales, comps, promo, tax, timeOpen, timeClose);
     }
 
     @Override
@@ -254,7 +190,6 @@ public class Check {
             ", comps='" + getComps() + "'" +
             ", promo='" + getPromo() + "'" +
             ", tax='" + getTax() + "'" +
-            ", paymentId='" + getPaymentId() + "'" +
             ", timeOpen='" + getTimeOpen() + "'" +
             ", timeClose='" + getTimeClose() + "'" +
             "}";
