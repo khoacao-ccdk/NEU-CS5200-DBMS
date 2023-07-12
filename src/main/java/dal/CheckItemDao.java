@@ -85,14 +85,16 @@ public class CheckItemDao {
     }
 
 	/**
-	 * Update check item data
+	 * Update checkItem to reflect a refund/a cancellation
 	 * @param item
+	 * @param newQty
+	 * @param newRefundQty
 	 * @return
 	 * @throws SQLException
 	 */
-	public CheckItem updateItem(CheckItem item) throws SQLException {
+	public CheckItem updateItem(CheckItem item, int newQty, int newRefundQty) throws SQLException {
 		String updateMenuItem = "UPDATE CheckItems "
-			+ "SET CheckId=?, Date=?, ItemId=?, TimeCreated=?, OrderModeId=?, Qty=?, RefundQty=?, EmployeeId=?, ParentModifierId=? "
+			+ "SET Qty=?, RefundQty=? "
 			+ "WHERE CheckItemId = ?;";
         Connection connection = null;
 		PreparedStatement updateStmt = null;    
@@ -101,21 +103,23 @@ public class CheckItemDao {
             connection = connectionManager.getConnection();
 			updateStmt = connection.prepareStatement(updateMenuItem);
 		
-            updateStmt.setInt(1, item.getCheckId());
-			updateStmt.setDate(2, item.getDate());
-			updateStmt.setInt(3, item.getItemId());
-			updateStmt.setTimestamp(4, item.getTimeCreated());
-			updateStmt.setInt(5, item.getOrderModeId());
-			updateStmt.setInt(6, item.getQuantity());
-			updateStmt.setInt(7, item.getRefundQuantity());
-			updateStmt.setInt(8, item.getEmployeeId());
-			updateStmt.setInt(9, item.getParentModifierId());
-			updateStmt.setInt(10, item.getCheckItemId());
+			updateStmt.setInt(1, newQty);
+			updateStmt.setInt(2, newRefundQty);
+			updateStmt.setInt(3, item.getCheckItemId());
 
 			//Execute statement
 			int numAffectedRow = updateStmt.executeUpdate();
 
-			System.out.println(String.format("%d row updated.", numAffectedRow));
+			if(numAffectedRow == 0){
+				throw new SQLException(String.format(
+					"Np record affected for CheckItemId = %d",
+					item.getCheckItemId()
+				));
+			}
+
+			//Update the object to reflect changes
+			item.setQuantity(newQty);
+			item.setRefundQuantity(newRefundQty);
 			
 			return item;
 		} catch (SQLException e) {

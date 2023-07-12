@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,18 +51,18 @@ public class EmployeeDao {
 			insertStmt.setInt(1, employee.getEmployeeId());
 			insertStmt.setString(2, employee.getFirstName());
 			insertStmt.setString(3, employee.getLastName());
-			insertStmt.setString(4, employee.getSSN());
-			insertStmt.setDate(5, employee.getDOB());
-			insertStmt.setString(6, employee.getEmail());
-			insertStmt.setString(7, employee.getPhone());
-			insertStmt.setString(8, employee.getStreet1());
-			insertStmt.setString(9, employee.getStreet2());
-			insertStmt.setString(10, employee.getCity());
-			insertStmt.setString(11, employee.getState());
-			insertStmt.setString(12, employee.getZip());
-			insertStmt.setBoolean(13, employee.getStatus());
-			insertStmt.setString(14, employee.getRole());
-			insertStmt.setInt(15, employee.getWage());
+			insertStmt.setObject(4, employee.getSSN(), Types.VARCHAR);
+			insertStmt.setObject(5, employee.getDOB(), Types.DATE);
+			insertStmt.setObject(6, employee.getEmail(), Types.VARCHAR);
+			insertStmt.setObject(7, employee.getPhone(), Types.VARCHAR);
+			insertStmt.setObject(8, employee.getStreet1(), Types.VARCHAR);
+			insertStmt.setObject(9, employee.getStreet2(), Types.VARCHAR);
+			insertStmt.setObject(10, employee.getCity(), Types.VARCHAR);
+			insertStmt.setObject(11, employee.getState(), Types.VARCHAR);
+			insertStmt.setObject(12, employee.getZip(), Types.VARCHAR);
+			insertStmt.setObject(13, employee.getStatus(), Types.BOOLEAN);
+			insertStmt.setObject(14, employee.getRole(), Types.VARCHAR);
+			insertStmt.setObject(15, employee.getWage(), Types.DECIMAL);
 
 			insertStmt.executeUpdate();
 
@@ -102,7 +103,6 @@ public class EmployeeDao {
 				String firstName = results.getString("FirstName");
 				String lastName = results.getString("LastName");
 				String ssn = results.getString("SSN");
-				// Retrieve other columns as needed
 				Date dob = results.getDate("DOB");
 				String email = results.getString("Email");
 				String phone = results.getString("Phone");
@@ -161,7 +161,6 @@ public class EmployeeDao {
 				String resultFirstName = results.getString("FirstName");
 				String lastName = results.getString("LastName");
 				String ssn = results.getString("SSN");
-				// Retrieve other columns as needed
 				Date dob = results.getDate("DOB");
 				String email = results.getString("Email");
 				String phone = results.getString("Phone");
@@ -193,6 +192,107 @@ public class EmployeeDao {
 			}
 		}
 		return employees;
+	}
+	
+	/**
+	 * Update an employee record in the database
+	 * @param employee
+	 * @param newFirstName
+	 * @param newLastName
+	 * @param newSSN
+	 * @param newDOB
+	 * @param newEmail
+	 * @param newPhone
+	 * @param newStreet1
+	 * @param newStreet2
+	 * @param newCity
+	 * @param newState
+	 * @param newZip
+	 * @param newStatus
+	 * @param newRole
+	 * @param newWage
+	 * @return
+	 * @throws SQLException
+	 */
+	public Employee updateEmployee(
+		Employee employee,
+		String newFirstName,
+		String newLastName, 
+		String newSSN,
+		Date newDOB,
+		String newEmail,
+		String newPhone,
+		String newStreet1,
+		String newStreet2,
+		String newCity,
+		String newState,
+		String newZip, 
+		boolean newStatus, 
+		String newRole,
+		int newWage
+	) throws SQLException {
+		String update = "UPDATE Employee SET FirstName=?, LastName=?, SSN=?, DOB=?, Email=?, Phone=?, Street1=?, Street2=?, City=?, State=?, Zip=?, Status=?, Role=?, Wage=? "
+						+ "WHERE EmployeeId=?";
+
+		Connection connection = null;
+		PreparedStatement updateStmt = null;
+		try {
+			connection = connectionManager.getConnection();
+			updateStmt = connection.prepareStatement(update);
+		
+			updateStmt.setString(1, employee.getFirstName());
+			updateStmt.setString(2, employee.getLastName());
+			updateStmt.setObject(3, employee.getSSN(), Types.VARCHAR);
+			updateStmt.setObject(4, employee.getDOB(), Types.DATE);
+			updateStmt.setObject(5, employee.getEmail(), Types.VARCHAR);
+			updateStmt.setObject(6, employee.getPhone(), Types.VARCHAR);
+			updateStmt.setObject(7, employee.getStreet1(), Types.VARCHAR);
+			updateStmt.setObject(8, employee.getStreet2(), Types.VARCHAR);
+			updateStmt.setObject(9, employee.getCity(), Types.VARCHAR);
+			updateStmt.setObject(10, employee.getState(), Types.VARCHAR);
+			updateStmt.setObject(11, employee.getZip(), Types.VARCHAR);
+			updateStmt.setObject(12, employee.getStatus(), Types.BOOLEAN);
+			updateStmt.setObject(13, employee.getRole(), Types.VARCHAR);
+			updateStmt.setObject(14, employee.getWage(), Types.DECIMAL);
+			updateStmt.setInt(15, employee.getEmployeeId());
+
+			//Execute statement
+			int numAffectedRow = updateStmt.executeUpdate();
+			if(numAffectedRow == 0){
+				throw new SQLException(String.format(
+					"No record updated for EmployeeId = %d",
+					employee.getEmployeeId()
+				));
+			}
+
+			//Update object to reflect changes
+			employee.setFirstName(newFirstName);
+			employee.setLastName(newLastName);
+			employee.setSSN(newSSN);
+			employee.setDOB(newDOB);
+			employee.setEmail(newEmail);
+			employee.setPhone(newPhone);
+			employee.setStreet1(newStreet1);
+			employee.setStreet2(newStreet2);
+			employee.setCity(newCity);
+			employee.setState(newState);
+			employee.setZip(newZip);
+			employee.setStatus(newStatus);
+			employee.setRole(newRole);
+			employee.setWage(newWage);
+
+			return employee;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if(connection != null) {
+				connection.close();
+			}
+			if(updateStmt != null) {
+				updateStmt.close();
+			}
+		}
 	}
 
 	/**

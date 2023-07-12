@@ -82,7 +82,11 @@ public class MenuItemDao {
 	 * @return
 	 * @throws SQLException
 	 */
-	public MenuItem updateItem(MenuItem item) throws SQLException {
+	public MenuItem updateItem(MenuItem item,
+			String newItemName,
+			double newItemPrice,
+			int newCategoryId
+	) throws SQLException {
 		String updateMenuItem = "UPDATE MenuItems "
 			+ "SET ItemName = ?, ItemPrice = ?, CategoryId = ? "
 			+ "WHERE ItemId = ?;";
@@ -93,15 +97,24 @@ public class MenuItemDao {
             connection = connectionManager.getConnection();
 			updateStmt = connection.prepareStatement(updateMenuItem);
 		
-            updateStmt.setString(1, item.getItemName());
-			updateStmt.setDouble(2, item.getItemPrice());
-			updateStmt.setInt(3, item.getCategoryId());
+            updateStmt.setString(1, newItemName);
+			updateStmt.setDouble(2, newItemPrice);
+			updateStmt.setInt(3, newCategoryId);
 			updateStmt.setInt(4, item.getItemId());
 
 			//Execute statement
 			int numAffectedRow = updateStmt.executeUpdate();
+			if(numAffectedRow == 0){
+				throw new SQLException(String.format(
+					"No record updated for ItemId = %d",
+					item.getItemId()
+				));
+			}
 
-			System.out.println(String.format("%d row updated.", numAffectedRow));
+			//Update object to reflect changes
+			item.setItemName(newItemName);
+			item.setItemPrice(newItemPrice);
+			item.setCategoryId(newCategoryId);
 			
 			return item;
 		} catch (SQLException e) {

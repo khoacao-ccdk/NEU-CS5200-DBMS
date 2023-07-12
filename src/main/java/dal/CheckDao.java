@@ -198,14 +198,30 @@ public class CheckDao {
 	}
 
 	/**
-	 * Update Check information
+	 * Set new information into the check table
 	 * @param check
+	 * @param newTableDesc
+	 * @param newGuestCount
+	 * @param newItemCount
+	 * @param newNetSales
+	 * @param newComps
+	 * @param newPromo
+	 * @param newTax
 	 * @return
 	 * @throws SQLException
 	 */
-	public Check updateCheck(Check check) throws SQLException {
+	public Check updateCheck(
+		Check check, 
+		String newTableDesc, 
+		int newGuestCount,
+		int newItemCount, 
+		double newNetSales,
+		double newComps, 
+		double newPromo,
+		double newTax
+	) throws SQLException {
 		String update = "UPDATE Checks "
-			+ "SET RevcenterId=?, EmployeeId=?, TableDesc=?, GuestCount=?, ItemCount=?, NetSales=?, Comps=?, Promo=?, Tax=?, TimeOpen=?, TimeClose=? "
+			+ "SET TableDesc=?, GuestCount=?, ItemCount=?, NetSales=?, Comps=?, Promo=?, Tax=? "
 			+ "WHERE CheckId=? AND Date=?;";
 
 		Connection connection = null;
@@ -214,24 +230,35 @@ public class CheckDao {
 			connection = connectionManager.getConnection();
 			updateStmt = connection.prepareStatement(update);
 
-			updateStmt.setInt(1, check.getRevCenterId());
-			updateStmt.setInt(2, check.getEmployeeId());
-			updateStmt.setString(3, check.getTableDesc());
-			updateStmt.setInt(4, check.getGuestCount());
-			updateStmt.setInt(5, check.getItemCount());
-			updateStmt.setDouble(6, check.getNetSales());
-			updateStmt.setDouble(7, check.getComps());
-			updateStmt.setDouble(8, check.getPromo());
-			updateStmt.setDouble(9, check.getTax());
-			updateStmt.setTime(10, check.getTimeOpen());
-			updateStmt.setTime(11, check.getTimeClose());
-			updateStmt.setInt(12, check.getCheckId());
-			updateStmt.setDate(13, check.getDate());
+			updateStmt.setString(1, newTableDesc);
+			updateStmt.setInt(2, newGuestCount);
+			updateStmt.setInt(3, newItemCount);
+			updateStmt.setDouble(4, newNetSales);
+			updateStmt.setDouble(5, newComps);
+			updateStmt.setDouble(6, newPromo);
+			updateStmt.setDouble(7, newTax);
+			updateStmt.setInt(8, check.getCheckId());
+			updateStmt.setDate(9, check.getDate());
 
 			int numAffectedRow = updateStmt.executeUpdate();
-
-			System.out.println(String.format("%d row updated.", numAffectedRow));
 			
+			if(numAffectedRow == 0){ 
+				throw new SQLException(
+					String.format("No record updated for checkid = %d on date = %s", 
+								check.getCheckId(), 
+								check.getDate().toString()
+				));
+			}
+
+			//Update new values to the object to reflect the changes.
+			check.setTableDesc(newTableDesc);
+			check.setGuestCount(newGuestCount);
+			check.setItemCount(newItemCount);
+			check.setNetSales(newNetSales);
+			check.setComps(newComps);
+			check.setPromo(newPromo);
+			check.setTax(newTax);
+
 			return check;
 		} catch (SQLException e) {
 			e.printStackTrace();
