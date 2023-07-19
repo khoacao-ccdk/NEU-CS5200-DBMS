@@ -73,6 +73,14 @@ public class Payments {
 		this.tips = tips;
 		this.employeeId = employeeId;
 	}
+	
+	/**
+	 * Constructor used when deleting a payment record from the database
+	 * @param paymentId an Integer represents the paymentId
+	 */
+	public Payments(int paymentId) {
+		this.paymentId = paymentId;
+	}
 
 	public int getPaymentId() {
 		return paymentId;

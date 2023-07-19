@@ -36,6 +36,14 @@ public class ClockEdits {
 		this.breakStart = breakStart;
 		this.breakEnd = breakEnd;
 	}
+	
+	/**
+	 * Constructor used when deleting a time clock edit
+	 * @param timeClockId
+	 */
+	public ClockEdits(int timeClockId) {
+		this.timeClockId = timeClockId;
+	}
 
 	public int getEditId() {
 		return editId;
