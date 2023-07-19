@@ -140,15 +140,16 @@ public class CheckDao {
 	}
 
 	/**
-	 * Retrieves a check record by Date 
-	 * @param date
+	 * Retrieves a check record by a given Date range
+	 * @param start
+	 * @param end
 	 * @return
 	 * @throws SQLException
 	 */
-	public List<Check> getCheckByDate(int checkId, Date date) throws SQLException {
+	public List<Check> getCheckByDateRange(Date start, Date end) throws SQLException {
 		List<Check> checks = new ArrayList<>();
 		String selectCheck = "SELECT CheckId, Date, RevcenterId, EmployeeId, TableDesc, GuestCount, ItemCount, NetSales, Comps, Promo, Tax, TimeOpen, TimeClose "
-		+ "FROM Checks WHERE DATE=?;";
+		+ "FROM Checks WHERE DATE BETWEEN ? AND ?;";
 
 		Connection connection = null;
 		PreparedStatement selectStmt = null;
@@ -156,7 +157,8 @@ public class CheckDao {
 		try {
 			connection = connectionManager.getConnection();
 			selectStmt = connection.prepareStatement(selectCheck);
-			selectStmt.setDate(1, date);
+			selectStmt.setDate(1, start);
+			selectStmt.setDate(2, end);
 
 			results = selectStmt.executeQuery();
 			while(results.next()) {
