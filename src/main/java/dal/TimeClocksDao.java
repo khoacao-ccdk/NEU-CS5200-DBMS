@@ -154,6 +154,56 @@ public class TimeClocksDao {
 		return items;
 	}
 	
+	public List<TimeClocks> getIncorrectTimeClock (Date start, Date end) throws SQLException {
+		List<TimeClocks> timeClocks = new ArrayList<>();
+		String findIncorrectTimeClock = "SELECT TimeClockId, T.EmployeeId, Date, In, Out, UnpaidBreak "
+				+ "FROM Employees E INNER JOIN Timeclocks T "
+				+ "ON E.EmployeeId = T.EmployeeId "
+				+ "WHERE (ClockInTime < '08:00:00' "
+				+ "OR ClockInTime > '23:00:00' "
+				+ "OR ClockOutTime > '23:00:00' "
+				+ "OR ClockOutTime < '08:00:00') "
+				+ "AND E.Status = true "
+				+ "AND DATE BETWEEN ? AND ?;";
+		Connection connection = null;
+		PreparedStatement selectStmt = null;
+		ResultSet results = null;
+		try {
+			connection = connectionManager.getConnection();
+			selectStmt = connection.prepareStatement(findIncorrectTimeClock);
+			selectStmt.setDate(1, start);
+			selectStmt.setDate(2, end);
+
+			results = selectStmt.executeQuery();
+			while(results.next()) {
+				//Retrieve values
+				int timeClockId = results.getInt("TimeClockId");
+				int employeeId = results.getInt("EmployeeId");
+				Date resultDate = results.getDate("Date");
+				Time in = results.getTime("In");
+				Time out = results.getTime("Out");
+				int unpaidBreak = results.getInt("UnpaidBreak");
+
+				TimeClocks item = new TimeClocks(timeClockId, employeeId, resultDate, in, out, unpaidBreak);
+
+				timeClocks.add(item);
+			}
+		} catch (SQLException e) {
+			throw e;
+		} finally {
+			if(connection != null) {
+				connection.close();
+			}
+			if(selectStmt != null) {
+				selectStmt.close();
+			}
+			if(results != null) {
+				results.close();
+			}
+		}
+		return timeClocks;
+	}
+	
 	public TimeClocks delete(TimeClocks item) throws SQLException{
 		String deletePayments = "DELETE FROM TimeClocks WHERE TimeClockId=?;";
 		Connection connection = null;
