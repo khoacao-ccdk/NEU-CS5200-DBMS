@@ -52,7 +52,7 @@ public class PaymentDelete extends HttpServlet {
         	payment = paymentsDao.delete(payment);
         	// Update the message.
 	        if (payment == null) {
-	            messages.put("title", "Successfully deleted " + paymentId);
+	            messages.put("title", "Successfully deleted payment ID: " + paymentId);
 	            messages.put("disableSubmit", "true");
 	        } else {
 	        	messages.put("title", "Failed to delete " + paymentId);
@@ -67,6 +67,6 @@ public class PaymentDelete extends HttpServlet {
 			throw new IOException(e);
         }
         
-        req.getRequestDispatcher("/UserDelete.jsp").forward(req, resp);
+        req.getRequestDispatcher("/PaymentDelete.jsp").forward(req, resp);
     }
 }

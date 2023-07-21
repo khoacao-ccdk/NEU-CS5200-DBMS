@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import dal.ClockEditsDao;
 import model.ClockEdits;
 
-@WebServlet("/clockeditscreate")
+@WebServlet("/clockeditcreate")
 public class ClockEditCreate extends HttpServlet {
 	protected ClockEditsDao clockEditDao;
 	
@@ -34,6 +34,7 @@ public class ClockEditCreate extends HttpServlet {
         try {
         	//Read all information from the request
 	    	int timeClockId = Integer.parseInt(req.getParameter("timeclockid"));
+	    	System.out.println(req.getParameter("in"));
 	    	Time in = Time.valueOf(req.getParameter("in"));
 	    	Time out = Time.valueOf(req.getParameter("out"));
 	    	Time breakStart = Time.valueOf(req.getParameter("breakstart"));
@@ -53,6 +54,6 @@ public class ClockEditCreate extends HttpServlet {
 			throw new IOException(e);
         }
         
-        req.getRequestDispatcher("/TimeClockUpdate.jsp").forward(req, resp);
+        req.getRequestDispatcher("/ClockEditCreate.jsp").forward(req, resp);
     }
 }

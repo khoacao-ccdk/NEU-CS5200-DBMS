@@ -156,15 +156,20 @@ public class TimeClocksDao {
 	
 	public List<TimeClocks> getIncorrectTimeClock (Date start, Date end) throws SQLException {
 		List<TimeClocks> timeClocks = new ArrayList<>();
-		String findIncorrectTimeClock = "SELECT TimeClockId, T.EmployeeId, Date, ClockInTime, ClockOutTime, UnpaidBreakMin "
+		String findIncorrectTimeClock = "SELECT INVALID.TimeClockId, INVALID.EmployeeId, INVALID.Date, INVALID.ClockInTime, INVALID.ClockOutTime, INVALID.UnpaidBreakMin "
+				+ "FROM "
+				+ "(SELECT T.* "
 				+ "FROM Employees E INNER JOIN Timeclocks T "
 				+ "ON E.EmployeeId = T.EmployeeId "
-				+ "WHERE (ClockInTime < '08:00:00' "
+				+ "WHERE ClockInTime < '08:00:00' "
 				+ "OR ClockInTime > '23:00:00' "
 				+ "OR ClockOutTime > '23:00:00' "
-				+ "OR ClockOutTime < '08:00:00') "
+				+ "OR ClockOutTime < '08:00:00' "
 				+ "AND E.Status = true "
-				+ "AND DATE BETWEEN ? AND ?;";
+				+ "AND T.DATE BETWEEN ? AND ?) AS INVALID "
+				+ "LEFT OUTER JOIN ClockEdits Edit "
+				+ "ON INVALID.TimeClockId = Edit.TimeClockId "
+				+ "WHERE Edit.ClockEditId IS NULL;";
 		Connection connection = null;
 		PreparedStatement selectStmt = null;
 		ResultSet results = null;
