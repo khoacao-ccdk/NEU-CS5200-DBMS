@@ -1,12 +1,11 @@
 CREATE SCHEMA IF NOT EXISTS RestaurantManagementSystem;
 USE RestaurantManagementSystem;
 
-DROP TABLE IF EXISTS PaymentsAndTips;
+DROP TABLE IF EXISTS Payments;
 DROP TABLE IF EXISTS CheckItems;
 DROP TABLE IF EXISTS Checks;
 DROP TABLE IF EXISTS MenuItems;
 DROP TABLE IF EXISTS Categories;
-DROP TABLE IF EXISTS PaymentsAndTips;
 DROP TABLE IF EXISTS ClockEdits;
 DROP TABLE IF EXISTS TimeClocks;
 DROP TABLE IF EXISTS Employees;
@@ -46,10 +45,10 @@ CREATE TABLE TimeClocks (
 CREATE TABLE ClockEdits (
 	ClockEditId INT AUTO_INCREMENT,
     TimeClockId INT,
-    Date DATE,
-    EditedClockInTime TIME,
-    EditedClockOutTIme TIME,
-    EditedUnpaidBreakMin INT,
+    ClockIn TIME,
+    ClockOut TIME,
+    BreakStart TIME,
+    BreakEnd TIME,
     CONSTRAINT pk_ClockEdits_ClockEditsId PRIMARY KEY (ClockEditId),
     CONSTRAINT fk_ClockEdits_TimeClockId FOREIGN KEY (TimeClockId)
 		REFERENCES TimeClocks (TimeClockId)
@@ -76,7 +75,7 @@ CREATE TABLE Checks (
         ON UPDATE CASCADE
 );
 
-CREATE TABLE PaymentsAndTips (
+CREATE TABLE Payments (
 	PaymentId INT AUTO_INCREMENT,
     CheckId INT,
     Date DATE,

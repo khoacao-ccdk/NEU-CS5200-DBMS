@@ -56,8 +56,8 @@ LOAD DATA INFILE '/usr/local/mysql-8.0.32-macos13-arm64/tmp/checks_2023_01_01_20
     Tax = @Tax,
     TimeOpen = SEC_TO_TIME(@Open_Time * 60),
     TimeClose = SEC_TO_TIME(@Actual_Close_Time * 60);
-    
-LOAD DATA INFILE '/usr/local/mysql-8.0.32-macos13-arm64/tmp/payments_2023_01_01_2023_03_31.csv' INTO TABLE PaymentsAndTips
+
+LOAD DATA INFILE '/usr/local/mysql-8.0.32-macos13-arm64/tmp/payments_2023_01_01_2023_03_31.csv' INTO TABLE Payments
   FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' 
   LINES TERMINATED BY '\r\n'
   IGNORE 1 LINES
