@@ -40,9 +40,9 @@ public class TimeClocksDao {
 			insertStmt = connection.prepareStatement(insertTimeClock, Statement.RETURN_GENERATED_KEYS);
 			insertStmt.setInt(1, item.getEmployeeId());
 			insertStmt.setDate(2, item.getDate());
-			insertStmt.setTime(3, item.getIn());
-			insertStmt.setTime(4, item.getOut());
-			insertStmt.setInt(5, item.getUnpaidBreak());
+			insertStmt.setTime(3, item.getClockInTime());
+			insertStmt.setTime(4, item.getClockOutTime());
+			insertStmt.setInt(5, item.getUnpaidBreakMin());
 
 			// Execute statement
 			insertStmt.executeUpdate();
@@ -156,20 +156,15 @@ public class TimeClocksDao {
 	
 	public List<TimeClocks> getIncorrectTimeClock (Date start, Date end) throws SQLException {
 		List<TimeClocks> timeClocks = new ArrayList<>();
-		String findIncorrectTimeClock = "SELECT TimeClockId, T.EmployeeId, Date, In, Out, UnpaidBreak "
-				+ "FROM " 
-				+ "(SELECT T.* "
+		String findIncorrectTimeClock = "SELECT TimeClockId, T.EmployeeId, Date, ClockInTime, ClockOutTime, UnpaidBreakMin "
 				+ "FROM Employees E INNER JOIN Timeclocks T "
 				+ "ON E.EmployeeId = T.EmployeeId "
-				+ "WHERE ClockInTime < '08:00:00' "
+				+ "WHERE (ClockInTime < '08:00:00' "
 				+ "OR ClockInTime > '23:00:00' "
 				+ "OR ClockOutTime > '23:00:00' "
-				+ "OR ClockOutTime < '08:00:00' "
-				+ "AND DATE BETWEEN ? AND ? "
-				+ "AND E.Status = true) AS INVALID "
-				+ "LEFT OUTER JOIN ClockEdit Edit "
-				+ "ON INVALID.TimeClockId = Edit.TimeClockId "
-				+ "WHERE Edit.EditId IS NULL;";
+				+ "OR ClockOutTime < '08:00:00') "
+				+ "AND E.Status = true "
+				+ "AND DATE BETWEEN ? AND ?;";
 		Connection connection = null;
 		PreparedStatement selectStmt = null;
 		ResultSet results = null;
@@ -185,11 +180,11 @@ public class TimeClocksDao {
 				int timeClockId = results.getInt("TimeClockId");
 				int employeeId = results.getInt("EmployeeId");
 				Date resultDate = results.getDate("Date");
-				Time in = results.getTime("In");
-				Time out = results.getTime("Out");
-				int unpaidBreak = results.getInt("UnpaidBreak");
+				Time clockInTime = results.getTime("ClockInTime");
+				Time clockOutTime = results.getTime("ClockOutTime");
+				int unpaidBreak = results.getInt("UnpaidBreakMin");
 
-				TimeClocks item = new TimeClocks(timeClockId, employeeId, resultDate, in, out, unpaidBreak);
+				TimeClocks item = new TimeClocks(timeClockId, employeeId, resultDate, clockInTime, clockOutTime, unpaidBreak);
 
 				timeClocks.add(item);
 			}

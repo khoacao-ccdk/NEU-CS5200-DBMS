@@ -15,27 +15,27 @@ public class TimeClocks {
 	private int timeClockId;
 	private int employeeId;
 	private Date date;
-	private Time in;
-	private Time out;
-	private int unpaidBreak;
+	private Time clockInTime;
+	private Time clockOutTime;
+	private int unpaidBreakMin;
 	
-	public TimeClocks(int employeeId, Date date, Time in, Time out, int unpaidBreak) {
+	public TimeClocks(int employeeId, Date date, Time clockInTime, Time clockOutTime, int unpaidBreakMin) {
 		super();
 		this.employeeId = employeeId;
 		this.date = date;
-		this.in = in;
-		this.out = out;
-		this.unpaidBreak = unpaidBreak;
+		this.clockInTime = clockInTime;
+		this.clockOutTime = clockOutTime;
+		this.unpaidBreakMin = unpaidBreakMin;
 	}
 
-	public TimeClocks(int timeClockId, int employeeId, Date date, Time in, Time out, int unpaidBreak) {
+	public TimeClocks(int timeClockId, int employeeId, Date date, Time clockInTime, Time clockOutTime, int unpaidBreakMin) {
 		super();
 		this.timeClockId = timeClockId;
 		this.employeeId = employeeId;
 		this.date = date;
-		this.in = in;
-		this.out = out;
-		this.unpaidBreak = unpaidBreak;
+		this.clockInTime = clockInTime;
+		this.clockOutTime = clockOutTime;
+		this.unpaidBreakMin = unpaidBreakMin;
 	}
 
 	public int getTimeClockId() {
@@ -62,33 +62,33 @@ public class TimeClocks {
 		this.date = date;
 	}
 
-	public Time getIn() {
-		return in;
+	public Time getClockInTime() {
+		return clockInTime;
 	}
 
-	public void setIn(Time in) {
-		this.in = in;
+	public void setClockInTime(Time clockInTime) {
+		this.clockInTime = clockInTime;
 	}
 
-	public Time getOut() {
-		return out;
+	public Time getClockOutTime() {
+		return clockOutTime;
 	}
 
-	public void setOut(Time out) {
-		this.out = out;
+	public void setClockOutTime(Time clockOutTime) {
+		this.clockOutTime = clockOutTime;
 	}
 
-	public int getUnpaidBreak() {
-		return unpaidBreak;
+	public int getUnpaidBreakMin() {
+		return unpaidBreakMin;
 	}
 
-	public void setUnpaidBreak(int unpaidBreak) {
-		this.unpaidBreak = unpaidBreak;
+	public void setUnpaidBreakMin(int unpaidBreakMin) {
+		this.unpaidBreakMin = unpaidBreakMin;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(date, employeeId, in, out, timeClockId, unpaidBreak);
+		return Objects.hash(date, employeeId, clockInTime, clockOutTime, timeClockId, unpaidBreakMin);
 	}
 
 	@Override
@@ -100,15 +100,15 @@ public class TimeClocks {
 		if (getClass() != obj.getClass())
 			return false;
 		TimeClocks other = (TimeClocks) obj;
-		return Objects.equals(date, other.date) && employeeId == other.employeeId && Objects.equals(in, other.in)
-				&& Objects.equals(out, other.out) && timeClockId == other.timeClockId
-				&& unpaidBreak == other.unpaidBreak;
+		return Objects.equals(date, other.date) && employeeId == other.employeeId && Objects.equals(clockInTime, other.clockInTime)
+				&& Objects.equals(clockOutTime, other.clockOutTime) && timeClockId == other.timeClockId
+				&& unpaidBreakMin == other.unpaidBreakMin;
 	}
 
 	@Override
 	public String toString() {
-		return "TimeClocks [timeClockId=" + timeClockId + ", employeeId=" + employeeId + ", date=" + date + ", in=" + in
-				+ ", out=" + out + ", unpaidBreak=" + unpaidBreak + "]";
+		return "TimeClocks [timeClockId=" + timeClockId + ", employeeId=" + employeeId + ", date=" + date + ", in=" + clockInTime
+				+ ", out=" + clockOutTime + ", unpaidBreak=" + unpaidBreakMin + "]";
 	}
 	
 	
