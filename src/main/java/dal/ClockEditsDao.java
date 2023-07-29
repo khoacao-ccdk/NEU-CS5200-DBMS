@@ -29,8 +29,8 @@ public class ClockEditsDao {
 	}
 
 	public ClockEdits create(ClockEdits item) throws SQLException {
-		String insertClockEdit = "INSERT INTO ClockEdits(TimeClockId, In, Out, BreakStart, BreakEnd) "
-				+ "VALUES(?,?,?,?);";
+		String insertClockEdit = "INSERT INTO ClockEdits(TimeClockId, ClockIn, ClockOut, BreakStart, BreakEnd) "
+				+ "VALUES(?,?,?,?,?);";
 		Connection connection = null;
 		PreparedStatement insertStmt = null;
 

@@ -1,7 +1,7 @@
 package servlet.update;
 
-import dal.EmployeeDao;
-import model.Employee;
+import dal.EmployeesDao;
+import model.Employees;
 
 import javax.servlet.annotation.*;
 
@@ -19,11 +19,11 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/employeeupdate")
 public class EmployeeUpdate extends HttpServlet{
-    protected EmployeeDao employeeDao;
+    protected EmployeesDao employeeDao;
 
     @Override
 	public void init() throws ServletException {
-		employeeDao = EmployeeDao.getInstance();
+		employeeDao = EmployeesDao.getInstance();
 	}
 
     @Override
@@ -37,7 +37,7 @@ public class EmployeeUpdate extends HttpServlet{
         try {
 			int employeeId = Integer.parseInt(req.getParameter("EmployeeId"));
 			
-    		Employee employee = employeeDao.getEmployeeById(employeeId);
+    		Employees employee = employeeDao.getEmployeeById(employeeId);
     		if(employee == null) {
     			messages.put("success", "EmployeeId does not exist.");
     		} else {
@@ -65,7 +65,7 @@ public class EmployeeUpdate extends HttpServlet{
         try {
 			int employeeId = Integer.parseInt(req.getParameter("EmployeeId"));
 			
-    		Employee employee = employeeDao.getEmployeeById(employeeId);
+    		Employees employee = employeeDao.getEmployeeById(employeeId);
     		if(employee == null) {
     			messages.put("success", "EmployeeId does not exist, no update to perform");
     		} else {
@@ -109,7 +109,7 @@ public class EmployeeUpdate extends HttpServlet{
     						newStatus, 
     						role, 
     						newWage);
-    				messages.put("success", "Successfully updated employee with id" + employeeId);
+    				messages.put("success", "Successfully updated employee with id: " + employeeId);
     			}
     			req.setAttribute("Employee", employee);
     		}
