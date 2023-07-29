@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class TimeClocksDao {
 			connection = connectionManager.getConnection();
 			insertStmt = connection.prepareStatement(insertTimeClock, Statement.RETURN_GENERATED_KEYS);
 			insertStmt.setInt(1, item.getEmployeeId());
-			insertStmt.setDate(2, item.getDate());
+			insertStmt.setDate(2, Date.valueOf(item.getDate()));
 			insertStmt.setTime(3, item.getClockInTime());
 			insertStmt.setTime(4, item.getClockOutTime());
 			insertStmt.setInt(5, item.getUnpaidBreakMin());
@@ -86,7 +87,7 @@ public class TimeClocksDao {
 				// Retrieve values
 				int resultTimeClockId = results.getInt("TimeClockId");
 				int employeeId = results.getInt("EmployeeId");
-				Date date = results.getDate("Date");
+				LocalDate date = results.getDate("Date").toLocalDate();
 				Time in = results.getTime("In");
 				Time out = results.getTime("Out");
 				int unpaidBreak = results.getInt("UnpaidBreak");
@@ -111,9 +112,9 @@ public class TimeClocksDao {
 		return null;
 	}
 	
-	public List<TimeClocks> getTimeClockByDate(Date date) throws SQLException {
+	public List<TimeClocks> getTimeClockByDate(LocalDate date) throws SQLException {
 		List<TimeClocks> items = new ArrayList<>();
-		String selectTimeClock = "SELECT TimeClockId, EmployeeId, Date, In, Out, UnpaidBreak "
+		String selectTimeClock = "SELECT TimeClockId, EmployeeId, Date, ClockInTime, ClockOutTime, UnpaidBreakMin "
 				+ "FROM TimeClocks " + "WHERE Date=?;";
 		
 		Connection connection = null;
@@ -122,17 +123,17 @@ public class TimeClocksDao {
 		try {
 			connection = connectionManager.getConnection();
 			selectStmt = connection.prepareStatement(selectTimeClock);
-			selectStmt.setDate(1, date);
+			selectStmt.setDate(1, Date.valueOf(date));
 
 			results = selectStmt.executeQuery();
 			while(results.next()) {
 				//Retrieve values
 				int timeClockId = results.getInt("TimeClockId");
 				int employeeId = results.getInt("EmployeeId");
-				Date resultDate = results.getDate("Date");
-				Time in = results.getTime("In");
-				Time out = results.getTime("Out");
-				int unpaidBreak = results.getInt("UnpaidBreak");
+				LocalDate resultDate = results.getDate("Date").toLocalDate();
+				Time in = results.getTime("ClockInTime");
+				Time out = results.getTime("ClockOutTime");
+				int unpaidBreak = results.getInt("UnpaidBreakMin");
 
 				TimeClocks item = new TimeClocks(timeClockId, employeeId, resultDate, in, out, unpaidBreak);
 
@@ -184,7 +185,7 @@ public class TimeClocksDao {
 				//Retrieve values
 				int timeClockId = results.getInt("TimeClockId");
 				int employeeId = results.getInt("EmployeeId");
-				Date resultDate = results.getDate("Date");
+				LocalDate resultDate = results.getDate("Date").toLocalDate();
 				Time clockInTime = results.getTime("ClockInTime");
 				Time clockOutTime = results.getTime("ClockOutTime");
 				int unpaidBreak = results.getInt("UnpaidBreakMin");

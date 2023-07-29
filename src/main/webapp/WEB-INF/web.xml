@@ -9,8 +9,8 @@
 	</welcome-file-list>
 	<!--
 	<servlet>
-    	<servlet-name>FindIncorrectTime</servlet-name>
-    	<servlet-class>servlet.read.FindIncorrectTimeClock</servlet-class>
+    	<servlet-name>TimeClocksRead</servlet-name>
+    	<servlet-class>servlet.read.TimeClocksRead</servlet-class>
     	<servlet-name>ClockEditCreate</servlet-name>
     	<servlet-class>servlet.create.ClockEditCreate</servlet-class>
     	<servlet-name>PaymentDelete</servlet-name>
@@ -19,8 +19,8 @@
     	<servlet-class>servlet.update.EmployeeUpdate</servlet-class>
   	</servlet>
   	<servlet-mapping>
-    	<servlet-name>FindIncorrectTime</servlet-name>
-    	<url-pattern>/findincorrecttimeclock</url-pattern>
+    	<servlet-name>TimeClocksRead</servlet-name>
+    	<url-pattern>/timeclocksread</url-pattern>
     	<servlet-name>ClockEditCreate</servlet-name>
     	<url-pattern>/clockeditcreate</url-pattern>
     	<servlet-name>PaymentDelete</servlet-name>

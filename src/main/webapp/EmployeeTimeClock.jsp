@@ -12,7 +12,7 @@
 </head>
 <body>
 	This is used to find if there is an error in the time clock.
-	<form action="findincorrecttimeclock" method="get">
+	<form action="timeclocksread" method="get">
 		<h1>Search for a time period</h1>
 		Enter start date: <input type="date" name="start"> 
 		Enter end date: <input type="date" name="end"> 
@@ -29,14 +29,18 @@
 			<th>Clock Out Time</th>
 			<th>Unpaid Break in Minute</th>
 		</tr>
-		<c:forEach items="${timeclocks}" var="timeclock">
+		<c:forEach items="${timeClocks}" var="timeClock">
 			<tr>
-				<td><c:out value="${timeclock.getTimeClockId()}" /></td>
-				<td><c:out value="${timeclock.getEmployeeId()}" /></td>
-				<td><c:out value="${timeclock.getDate()}"/></td>
-				<td><fmt:formatDate type="time" value="${timeclock.getClockInTime()}" /></td>
-				<td><c:out value="${timeclock.getClockOutTime()}" /></td>
-				<td><c:out value="${timeclock.getUnpaidBreakMin()}" /></td>
+				<td><c:out value="${timeClock.getTimeClockId()}" /></td>
+				<td><c:out value="${timeClock.getEmployeeId()}" /></td>
+				<td>
+					<%--  <fmt:parseDate value="${timeClock.getDate()}" pattern="yyyy-MM-dd" var="parsedDate" type="date" />
+					<fmt:formatDate value="${parsedDate}" type="date" /> --%>
+					<c:out value="${timeClock.getDate().plusDays(1)}" /> 
+				</td>
+				<td><fmt:formatDate type="time" value="${timeClock.getClockInTime()}" timeZone="GMT+0" pattern="HH:mm:ss" /></td>
+				<td><fmt:formatDate type="time" value="${timeClock.getClockOutTime()}" timeZone="GMT+0" pattern="HH:mm:ss" /></td>
+				<td><c:out value="${timeClock.getUnpaidBreakMin()}" /></td>
 			</tr>
 		</c:forEach>
 	</table>

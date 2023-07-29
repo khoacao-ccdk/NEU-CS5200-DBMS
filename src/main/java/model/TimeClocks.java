@@ -1,7 +1,7 @@
 package model;
 
-import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
 import java.util.Objects;
 
 /** 
@@ -14,12 +14,12 @@ public class TimeClocks {
 	
 	private int timeClockId;
 	private int employeeId;
-	private Date date;
+	private LocalDate date;
 	private Time clockInTime;
 	private Time clockOutTime;
 	private int unpaidBreakMin;
 	
-	public TimeClocks(int employeeId, Date date, Time clockInTime, Time clockOutTime, int unpaidBreakMin) {
+	public TimeClocks(int employeeId, LocalDate date, Time clockInTime, Time clockOutTime, int unpaidBreakMin) {
 		super();
 		this.employeeId = employeeId;
 		this.date = date;
@@ -28,7 +28,7 @@ public class TimeClocks {
 		this.unpaidBreakMin = unpaidBreakMin;
 	}
 
-	public TimeClocks(int timeClockId, int employeeId, Date date, Time clockInTime, Time clockOutTime, int unpaidBreakMin) {
+	public TimeClocks(int timeClockId, int employeeId, LocalDate date, Time clockInTime, Time clockOutTime, int unpaidBreakMin) {
 		super();
 		this.timeClockId = timeClockId;
 		this.employeeId = employeeId;
@@ -54,11 +54,11 @@ public class TimeClocks {
 		this.employeeId = employeeId;
 	}
 
-	public Date getDate() {
+	public LocalDate getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(LocalDate date) {
 		this.date = date;
 	}
 
