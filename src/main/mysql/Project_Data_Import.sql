@@ -1,6 +1,6 @@
 USE restaurantmanagementsystem;
 
-LOAD DATA INFILE '/usr/local/mysql-8.0.32-macos13-arm64/tmp/records/Employees.csv' INTO TABLE Employees
+LOAD DATA INFILE '/usr/local/mysql-8.0.32-macos13-arm64/tmp/records/employees.csv' INTO TABLE Employees
   FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' 
   LINES TERMINATED BY '\r\n'
   IGNORE 1 LINES
@@ -22,7 +22,7 @@ LOAD DATA INFILE '/usr/local/mysql-8.0.32-macos13-arm64/tmp/records/Employees.cs
     Role = @Role,
     Wage = @Wage;
   
-LOAD DATA INFILE '/usr/local/mysql-8.0.32-macos13-arm64/tmp/time_clocks_2023_01_01_2023_03_31.csv' INTO TABLE TimeClocks
+LOAD DATA INFILE '/usr/local/mysql-8.0.32-macos13-arm64/tmp/time_clocks_2020_01_13_2023_07_16.csv' INTO TABLE TimeClocks
   FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' 
   LINES TERMINATED BY '\r\n'
   IGNORE 1 LINES
@@ -34,7 +34,7 @@ LOAD DATA INFILE '/usr/local/mysql-8.0.32-macos13-arm64/tmp/time_clocks_2023_01_
     ClockOutTIme = @Clock_Out_Time,
     UnpaidBreakMin = @Unpaid_Brk_Minutes;
   
-LOAD DATA INFILE '/usr/local/mysql-8.0.32-macos13-arm64/tmp/checks_2023_01_01_2023_03_31.csv' INTO TABLE Checks
+LOAD DATA INFILE '/usr/local/mysql-8.0.32-macos13-arm64/tmp/checks_2020_01_13_2023_07_16.csv' INTO TABLE Checks
   FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' 
   LINES TERMINATED BY '\r\n'
   IGNORE 1 LINES
@@ -56,8 +56,9 @@ LOAD DATA INFILE '/usr/local/mysql-8.0.32-macos13-arm64/tmp/checks_2023_01_01_20
     Tax = @Tax,
     TimeOpen = SEC_TO_TIME(@Open_Time * 60),
     TimeClose = SEC_TO_TIME(@Actual_Close_Time * 60);
+    
 
-LOAD DATA INFILE '/usr/local/mysql-8.0.32-macos13-arm64/tmp/payments_2023_01_01_2023_03_31.csv' INTO TABLE Payments
+LOAD DATA INFILE '/usr/local/mysql-8.0.32-macos13-arm64/tmp/payments_2020_01_13_2023_07_16.csv' INTO TABLE Payments
   FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' 
   LINES TERMINATED BY '\r\n'
   IGNORE 1 LINES
@@ -73,6 +74,7 @@ LOAD DATA INFILE '/usr/local/mysql-8.0.32-macos13-arm64/tmp/payments_2023_01_01_
     PayAmount = @Amount,
     Tips = @Tips,
     EmployeeId = @Employee_ID;
+
     
 LOAD DATA INFILE '/usr/local/mysql-8.0.32-macos13-arm64/tmp/records/categories.csv' INTO TABLE Categories
   FIELDS TERMINATED BY ','
@@ -84,7 +86,7 @@ LOAD DATA INFILE '/usr/local/mysql-8.0.32-macos13-arm64/tmp/records/menu_items.c
   LINES TERMINATED BY '\r\n'
   IGNORE 1 LINES;
 
-LOAD DATA INFILE '/usr/local/mysql-8.0.32-macos13-arm64/tmp/check_Items_2023_01_01_2023_03_31.csv' INTO TABLE CheckItems
+LOAD DATA INFILE '/usr/local/mysql-8.0.32-macos13-arm64/tmp/check_Items_2020_01_13_2023_07_16.csv' INTO TABLE CheckItems
   FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' 
   LINES TERMINATED BY '\r\n'
   IGNORE 1 LINES
@@ -102,4 +104,3 @@ LOAD DATA INFILE '/usr/local/mysql-8.0.32-macos13-arm64/tmp/check_Items_2023_01_
     RefundQty = @Refund_Qty,
     EmployeeId = @Employee_ID,
     ParentModifierId = IF(@Parent_Modifier_ID = 0, NULL, @Parent_Modifier_ID);
-  
