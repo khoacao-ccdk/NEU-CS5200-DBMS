@@ -67,6 +67,61 @@ public class ClockEditsDao {
 			}
 		}
 	}
+	
+	/**
+	 * Update the ClockEdit record in the database 
+	 * @param item
+	 * @param newClockIn
+	 * @param newClockOut
+	 * @param newBreakStart
+	 * @param newBreakEnd
+	 * @return
+	 * @throws SQLException
+	 */
+	public ClockEdits update(ClockEdits item, Time newClockIn, Time newClockOut, Time newBreakStart, Time newBreakEnd) throws SQLException {
+		String updateClockEdit = "UPDATE ClockEdits SET ClockIn = ?, ClockOut = ?, BreakStart = ?, BreakEnd = ? "
+				+ "WHERE ClockEditId = ?;";
+		Connection connection = null;
+		PreparedStatement updateStmt = null;
+
+		try {
+			connection = connectionManager.getConnection();
+			updateStmt = connection.prepareStatement(updateClockEdit);
+			
+			updateStmt.setTime(1, newClockIn);
+			updateStmt.setTime(2, newClockOut);
+			updateStmt.setTime(3, newBreakStart);
+			updateStmt.setTime(4, newBreakEnd);
+			updateStmt.setInt(5, item.getEditId());
+
+			//Execute statement
+			int numAffectedRow = updateStmt.executeUpdate();
+			if(numAffectedRow == 0){
+				throw new SQLException(String.format(
+					"No record updated for ClockEditId = %d",
+					item.getEditId()
+				));
+			}
+			
+			//Update object to reflect changes in the database
+			item.setIn(newClockIn);
+			item.setOut(newClockOut);
+			item.setBreakStart(newBreakStart);
+			item.setBreakEnd(newBreakEnd);
+
+			return item;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (connection != null) {
+				connection.close();
+			}
+			if (updateStmt != null) {
+				updateStmt.close();
+			}
+		}
+	}
 
 	/**
 	 * Retrieve a clock edit record by ID.

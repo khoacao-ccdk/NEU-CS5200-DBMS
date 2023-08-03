@@ -93,6 +93,6 @@ public class EmployeeCreate extends HttpServlet {
 			messages.put("success", "Please enter a valid date format (yyyy-dd-mm)");
 		}
         
-        req.getRequestDispatcher("/EmployeeCreate.jsp").forward(req, resp);
+        req.getRequestDispatcher("/create/EmployeeCreate.jsp").forward(req, resp);
     }
 }

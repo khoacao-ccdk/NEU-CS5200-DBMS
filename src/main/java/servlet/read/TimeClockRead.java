@@ -57,7 +57,7 @@ public class TimeClockRead extends HttpServlet {
 			req.setAttribute("previousStart", startDateString);
 			req.setAttribute("previousEnd", endDateString);
 
-			req.getRequestDispatcher("/EmployeeTimeClock.jsp").forward(req, res);
+			req.getRequestDispatcher("/read/EmployeeTimeClock.jsp").forward(req, res);
 		} catch (SQLException e) {
 			throw new IOException(e);
 		}

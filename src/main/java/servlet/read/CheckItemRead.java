@@ -54,7 +54,7 @@ public class CheckItemRead extends HttpServlet {
         	
         	req.setAttribute("checkitems", checkItems);
             
-            req.getRequestDispatcher("/FindPayments.jsp").forward(req, resp);
+            req.getRequestDispatcher("/read/FindCheckItems.jsp").forward(req, resp);
         } catch(NumberFormatException e) { 
         	messages.put("success", "Please provide a correct checkId format");
         } catch(ParseException e) {
