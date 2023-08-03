@@ -162,10 +162,10 @@ public class TimeClocksDao {
 				+ "(SELECT T.* "
 				+ "FROM Employees E INNER JOIN Timeclocks T "
 				+ "ON E.EmployeeId = T.EmployeeId "
-				+ "WHERE ClockInTime < '08:00:00' "
+				+ "WHERE (ClockInTime < '08:00:00' "
 				+ "OR ClockInTime > '23:00:00' "
 				+ "OR ClockOutTime > '23:00:00' "
-				+ "OR ClockOutTime < '08:00:00' "
+				+ "OR ClockOutTime < '08:00:00') "
 				+ "AND E.Status = true "
 				+ "AND T.DATE BETWEEN ? AND ?) AS INVALID "
 				+ "LEFT OUTER JOIN ClockEdits Edit "
@@ -177,8 +177,8 @@ public class TimeClocksDao {
 		try {
 			connection = connectionManager.getConnection();
 			selectStmt = connection.prepareStatement(findIncorrectTimeClock);
-			selectStmt.setDate(1, start);
-			selectStmt.setDate(2, end);
+			selectStmt.setObject(1, start.toString());
+			selectStmt.setObject(2, end.toString());
 
 			results = selectStmt.executeQuery();
 			while(results.next()) {
