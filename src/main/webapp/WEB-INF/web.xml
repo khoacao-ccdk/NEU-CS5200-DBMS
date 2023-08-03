@@ -17,6 +17,8 @@
     	<servlet-class>servlet.delete.PaymentDelete</servlet-class>
     	<servlet-name>EmployeeUpdate</servlet-name>
     	<servlet-class>servlet.update.EmployeeUpdate</servlet-class>
+    	<servlet-name>GeneratePayrollReport</servlet-name>
+    	<servlet-class>servlet.read.GeneratePayrollReport</servlet-class>
   	</servlet>
   	<servlet-mapping>
     	<servlet-name>TimeClocksRead</servlet-name>
@@ -27,6 +29,8 @@
     	<url-pattern>/paymentdelete</url-pattern>
     	<servlet-name>EmployeeUpdate</servlet-name>
     	<url-pattern>/employeeupdate</url-pattern>
+    	<servlet-name>GeneratePayrollReport</servlet-name>
+    	<url-pattern>/generatepayrollreport</url-pattern>
   	</servlet-mapping>
   -->
 </web-app>
