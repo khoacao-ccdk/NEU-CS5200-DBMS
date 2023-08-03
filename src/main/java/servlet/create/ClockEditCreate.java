@@ -54,6 +54,6 @@ public class ClockEditCreate extends HttpServlet {
 			throw new IOException(e);
         }
         
-        req.getRequestDispatcher("/create/ClockEditCreate.jsp").forward(req, resp);
+        req.getRequestDispatcher("/ClockEditCreate.jsp").forward(req, resp);
     }
 }

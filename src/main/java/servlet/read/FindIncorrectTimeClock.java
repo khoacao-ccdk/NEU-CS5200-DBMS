@@ -57,7 +57,7 @@ public class FindIncorrectTimeClock extends HttpServlet {
         	req.setAttribute("previousStart", startDateString);
         	req.setAttribute("previousEnd", endDateString);
             
-            req.getRequestDispatcher("/read/EmployeeTimeClock.jsp").forward(req, resp);
+            req.getRequestDispatcher("/EmployeeTimeClock.jsp").forward(req, resp);
         } catch(ParseException e) {
         	messages.put("success", "Please provide a correct date format (yyyy-mm-dd)");
         } catch(SQLException e) {

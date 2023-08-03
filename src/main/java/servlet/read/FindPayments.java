@@ -54,7 +54,7 @@ public class FindPayments extends HttpServlet {
         	
         	req.setAttribute("payments", payments);
             
-            req.getRequestDispatcher("/read/FindPayments.jsp").forward(req, resp);
+            req.getRequestDispatcher("/FindPayments.jsp").forward(req, resp);
         } catch(NumberFormatException e) { 
         	messages.put("success", "Please provide a correct checkId format");
         } catch(ParseException e) {

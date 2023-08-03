@@ -67,61 +67,6 @@ public class ClockEditsDao {
 			}
 		}
 	}
-	
-	/**
-	 * Update the ClockEdit record in the database 
-	 * @param item
-	 * @param newClockIn
-	 * @param newClockOut
-	 * @param newBreakStart
-	 * @param newBreakEnd
-	 * @return
-	 * @throws SQLException
-	 */
-	public ClockEdits update(ClockEdits item, Time newClockIn, Time newClockOut, Time newBreakStart, Time newBreakEnd) throws SQLException {
-		String updateClockEdit = "UPDATE ClockEdits SET ClockIn = ?, ClockOut = ?, BreakStart = ?, BreakEnd = ? "
-				+ "WHERE ClockEditId = ?;";
-		Connection connection = null;
-		PreparedStatement updateStmt = null;
-
-		try {
-			connection = connectionManager.getConnection();
-			updateStmt = connection.prepareStatement(updateClockEdit);
-			
-			updateStmt.setTime(1, newClockIn);
-			updateStmt.setTime(2, newClockOut);
-			updateStmt.setTime(3, newBreakStart);
-			updateStmt.setTime(4, newBreakEnd);
-			updateStmt.setInt(5, item.getEditId());
-
-			//Execute statement
-			int numAffectedRow = updateStmt.executeUpdate();
-			if(numAffectedRow == 0){
-				throw new SQLException(String.format(
-					"No record updated for ClockEditId = %d",
-					item.getEditId()
-				));
-			}
-			
-			//Update object to reflect changes in the database
-			item.setIn(newClockIn);
-			item.setOut(newClockOut);
-			item.setBreakStart(newBreakStart);
-			item.setBreakEnd(newBreakEnd);
-
-			return item;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw e;
-		} finally {
-			if (connection != null) {
-				connection.close();
-			}
-			if (updateStmt != null) {
-				updateStmt.close();
-			}
-		}
-	}
 
 	/**
 	 * Retrieve a clock edit record by ID.
@@ -178,9 +123,8 @@ public class ClockEditsDao {
  * @return
  * @throws SQLException
  */
-	public List<ClockEdits> getClockEditssByTimeClockId(int timeClockId) throws SQLException {
-		List<ClockEdits> items = new ArrayList<>();
-		String selectClockEdits = "SELECT EditId, TimeClockId, In, Out, BreakStart, BreakEnd "
+	public ClockEdits getClockEditssByTimeClockId(int timeClockId) throws SQLException {
+		String selectClockEdits = "SELECT ClockEditId, TimeClockId, ClockIn, ClockOut, BreakStart, BreakEnd "
 				+ "FROM ClockEdits " + "WHERE TimeClockId=?;";
 
 		Connection connection = null;
@@ -192,7 +136,7 @@ public class ClockEditsDao {
 			selectStmt.setInt(1, timeClockId);
 
 			results = selectStmt.executeQuery();
-			while (results.next()) {
+			if (results.next()) {
 				// Retrieve values
 				int clockEditId = results.getInt("EditId");
 				int resultTimeClockId = results.getInt("TimeClockId");
@@ -203,7 +147,7 @@ public class ClockEditsDao {
 
 				ClockEdits item = new ClockEdits(clockEditId, resultTimeClockId, in, out, breakStart, breakEnd);
 
-				items.add(item);
+				return item;
 			}
 		} catch (SQLException e) {
 			throw e;
@@ -218,7 +162,7 @@ public class ClockEditsDao {
 				results.close();
 			}
 		}
-		return items;
+		return null;
 	}
 
 	/**

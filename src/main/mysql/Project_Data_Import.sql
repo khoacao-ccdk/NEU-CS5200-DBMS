@@ -68,10 +68,10 @@ LOAD DATA INFILE '/usr/local/mysql-8.0.32-macos13-arm64/tmp/payments_2020_01_13_
     CheckId = @Check_Number,
     Date = STR_TO_DATE(@Date,'%m/%d/%Y'),
     Time = SEC_TO_TIME((@Hour * 60 + @Minute) * 60),
-    PayMethod = @Description,
+    PaymentMethod = @Description,
     CCNumber =@CC_Number,
     AuthNumber = @Auth_Number,
-    PayAmount = @Amount,
+    PaymentAmount = @Amount,
     Tips = @Tips,
     EmployeeId = @Employee_ID;
 

@@ -32,7 +32,7 @@ public class PaymentDelete extends HttpServlet {
         req.setAttribute("messages", messages);
         // Provide a title and render the JSP.
         messages.put("title", "Delete Payment");        
-        req.getRequestDispatcher("/delete/PaymentDelete.jsp").forward(req, resp);
+        req.getRequestDispatcher("/PaymentDelete.jsp").forward(req, resp);
 	}
 	
 	@Override

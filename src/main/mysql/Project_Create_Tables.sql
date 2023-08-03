@@ -80,17 +80,17 @@ CREATE TABLE Payments (
     CheckId INT,
     Date DATE,
     Time TIME,
-    PayMethod VARCHAR(255),
+    PaymentMethod VARCHAR(255),
     CCNumber VARCHAR(255),
     AuthNumber VARCHAR(255),
-    PayAmount DECIMAL(6,2),
+    PaymentAmount DECIMAL(6,2),
     Tips DECIMAL(6,2),
     EmployeeId INT,
-    CONSTRAINT pk_PaymentsAndTips_PaymentId PRIMARY KEY (PaymentId)
-/*    CONSTRAINT fk_PaymentsAndTips_CheckId_Date FOREIGN KEY (CheckId, Date)
+    CONSTRAINT pk_PaymentsAndTips_PaymentId PRIMARY KEY (PaymentId),
+    CONSTRAINT fk_PaymentsAndTips_CheckId_Date FOREIGN KEY (CheckId, Date)
 		REFERENCES Checks (CheckId, Date)
         ON UPDATE CASCADE ON DELETE CASCADE
-*/
+
 );
 
 CREATE TABLE Categories (

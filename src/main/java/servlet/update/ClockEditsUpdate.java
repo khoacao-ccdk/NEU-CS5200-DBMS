@@ -25,7 +25,7 @@ public class ClockEditsUpdate extends HttpServlet{
 	}
 	
 	@Override
-    public void doPut(HttpServletRequest req, HttpServletResponse resp)
+    public void doPost(HttpServletRequest req, HttpServletResponse resp)
     		throws ServletException, IOException {
         // Map for storing messages.
         Map<String, String> messages = new HashMap<String, String>();

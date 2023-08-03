@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,7 +88,7 @@ public class PaymentsDao {
 	 * @throws SQLException
 	 */
 	public Payments getPaymentByPaymentId(int paymentId) throws SQLException {
-		String selectPayment = "SELECT PaymentId, CheckId, Timestamp, PaymentMethod, CCNumber, AuthNumber, PaymentAmount, Tips, EmployeeId "
+		String selectPayment = "SELECT PaymentId, CheckId, Date, Time, PaymentMethod, CCNumber, AuthNumber, PaymentAmount, Tips, EmployeeId "
 				+ "FROM Payments " + "WHERE PaymentId=?;";
 
 		Connection connection = null;
@@ -142,7 +143,7 @@ public class PaymentsDao {
 	 */
 	public List<Payments> getPaymentsByCheck(int checkId, Date date) throws SQLException {
 		List<Payments> items = new ArrayList<>();
-		String selectCheckItem = "SELECT PaymentId, CheckId, Timestamp, PaymentMethod, CCNumber, AuthNumber, PaymentAmount, Tips, EmployeeId "
+		String selectCheckItem = "SELECT PaymentId, CheckId, Date, Time, PaymentMethod, CCNumber, AuthNumber, PaymentAmount, Tips, EmployeeId "
 				+ "FROM Payments " + "WHERE CheckId=? AND Date=?;";
 		
 		Connection connection = null;
@@ -169,6 +170,60 @@ public class PaymentsDao {
 				int employeeId = results.getInt("EmployeeId");
 
 				Payments item = new Payments(paymentId, resultCheckId, resultDate, time, paymentMethod, ccNumber, authNumber,
+						paymentAmount, tips, employeeId);
+
+				items.add(item);
+			}
+		} catch (SQLException e) {
+			throw e;
+		} finally {
+			if(connection != null) {
+				connection.close();
+			}
+			if(selectStmt != null) {
+				selectStmt.close();
+			}
+			if(results != null) {
+				results.close();
+			}
+		}
+		return items;
+	}
+	
+	/**
+	 * Retrieve a list of payment by date.
+	 * @param date
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<Payments> getPaymentsByDate(LocalDate date) throws SQLException {
+		List<Payments> items = new ArrayList<>();
+		String selectCheckItem = "SELECT PaymentId, CheckId, Date, Time, PaymentMethod, CCNumber, AuthNumber, PaymentAmount, Tips, EmployeeId "
+				+ "FROM Payments " + "WHERE Date=?;";
+		
+		Connection connection = null;
+		PreparedStatement selectStmt = null;
+		ResultSet results = null;
+		try {
+			connection = connectionManager.getConnection();
+			selectStmt = connection.prepareStatement(selectCheckItem);
+			selectStmt.setDate(1, Date.valueOf(date));
+
+			results = selectStmt.executeQuery();
+			while(results.next()) {
+				//Retrieve values
+				int paymentId = results.getInt("PaymentId");
+				int checkId = results.getInt("CheckId");
+				Date resultDate = results.getDate("Date");
+				Time time = results.getTime("Time");
+				String paymentMethod = results.getString("PaymentMethod");
+				String ccNumber = results.getString("CCNumber");
+				String authNumber = results.getString("AuthNumber");
+				float paymentAmount = results.getFloat("PaymentAmount");
+				float tips = results.getFloat("Tips");
+				int employeeId = results.getInt("EmployeeId");
+
+				Payments item = new Payments(paymentId, checkId, resultDate, time, paymentMethod, ccNumber, authNumber,
 						paymentAmount, tips, employeeId);
 
 				items.add(item);
