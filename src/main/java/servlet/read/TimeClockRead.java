@@ -45,7 +45,7 @@ public class TimeClockRead extends HttpServlet {
 			LocalDate start = LocalDate.parse(startDateString, formatter);
 			LocalDate end = LocalDate.parse(endDateString, formatter);
 
-			for (LocalDate currentDate = start; currentDate.isBefore(end.plusDays(serialVersionUID)); currentDate = currentDate.plusDays(1)) {
+			for (LocalDate currentDate = start; currentDate.isBefore(end.plusDays(1)); currentDate = currentDate.plusDays(1)) {
 				timeClocks.addAll(timeClocksDao.getTimeClockByDate(currentDate));
 			}
 
