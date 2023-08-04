@@ -10,7 +10,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form action="generatepayrollreport" method="get">
+	<form action="../generatepayrollreport" method="get">
 		<h1>Generate payroll report for a time period</h1>
 		Enter start date: <input type="date" name="start"> Enter end
 		date: <input type="date" name="end"> <input type="submit">

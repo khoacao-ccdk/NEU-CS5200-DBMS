@@ -8,7 +8,7 @@
 </head>
 <body>
 This create a clock edit
-	<form action="clockeditcreate" method="post">
+	<form action="../clockeditcreate" method="post">
 		<h1>Edit a time clock</h1>
 		Time clock ID: <input type="number" name="timeclockid"> 
 		Clock in: <input type="time" step="1" name="in">

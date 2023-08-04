@@ -67,6 +67,6 @@ public class PaymentDelete extends HttpServlet {
 			throw new IOException(e);
         }
         
-        req.getRequestDispatcher("/PaymentDelete.jsp").forward(req, resp);
+        req.getRequestDispatcher("/delete/PaymentDelete.jsp").forward(req, resp);
     }
 }

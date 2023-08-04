@@ -130,7 +130,7 @@ public class GeneratePayrollReport extends HttpServlet {
 			req.setAttribute("listOfDates", listOfDates);
 			req.setAttribute("listOfEmployees", employeesSet.toArray());
 			req.setAttribute("payrollMap", payrollMap);
-			req.getRequestDispatcher("/GeneratePayrollReport.jsp").forward(req, res);
+			req.getRequestDispatcher("/read/GeneratePayrollReport.jsp").forward(req, res);
 			
 		} catch (
 

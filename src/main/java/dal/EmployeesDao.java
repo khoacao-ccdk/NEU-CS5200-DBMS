@@ -79,6 +79,62 @@ public class EmployeesDao {
 			}
 		}
     }
+	
+	/**
+	 * Retrieves all employee
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<Employees> getAllEmployee() throws SQLException {
+		List<Employees> employees = new ArrayList<>();
+		String selectEmployee = "SELECT EmployeeId, FirstName, LastName, SSN, DOB, Email, Phone, Street1, Street2, City, State, Zip, Status, Role, Wage "
+			+ "FROM Employees;";
+		Connection connection = null;
+		PreparedStatement selectStmt = null;
+		ResultSet results = null;
+		try{
+			connection = connectionManager.getConnection();
+			selectStmt = connection.prepareStatement(selectEmployee);
+			
+			results = selectStmt.executeQuery();
+			while(results.next()){
+				int resultEmployeeId = results.getInt("EmployeeId");
+				String firstName = results.getString("FirstName");
+				String lastName = results.getString("LastName");
+				String ssn = results.getString("SSN");
+				Date dob = results.getDate("DOB");
+				String email = results.getString("Email");
+				String phone = results.getString("Phone");
+				String street1 = results.getString("Street1");
+				String street2 = results.getString("Street2");
+				String city = results.getString("City");
+				String state = results.getString("State");
+				String zip = results.getString("Zip");
+				boolean status = results.getBoolean("Status");
+				String role = results.getString("Role");
+				int wage = results.getInt("Wage");
+
+				// Create a new Employee object using the retrieved data
+				Employees employee = new Employees(resultEmployeeId, firstName, lastName, ssn, dob, email,
+					phone, street1, street2, city, state, zip, status, role, wage);
+
+				// Return the populated Employee object
+				employees.add(employee);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if(connection != null) {
+				connection.close();
+			}
+			if(selectStmt != null) {
+				selectStmt.close();
+			}
+		}
+		return employees;
+	}
 
 	/**
 	 * Retrieves the Employee info given the Id

@@ -11,7 +11,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form action="timeclocksread" method="get">
+	<form action="../timeclocksread" method="get">
 		<h1>Search for a time period</h1>
 		Enter start date: <input type="date" name="start"> 
 		Enter end date: <input type="date" name="end"> 

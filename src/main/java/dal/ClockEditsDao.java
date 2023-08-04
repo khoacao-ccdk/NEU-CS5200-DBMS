@@ -67,6 +67,51 @@ public class ClockEditsDao {
 			}
 		}
 	}
+	
+	public ClockEdits update(ClockEdits item, Time newIn, Time newOut, Time newBreakStart, Time newBreakEnd) throws SQLException {
+		String updateClockEdit = "UPDATE ClockEdits SET TimeClockId=?, ClockIn=?, ClockOut=?, BreakStart=?, BreakEnd=? "
+				+ "WHERE ClockEDitId=?;";
+		Connection connection = null;
+		PreparedStatement updateStmt = null;
+
+		try {
+			connection = connectionManager.getConnection();
+			updateStmt = connection.prepareStatement(updateClockEdit);
+			
+			updateStmt.setTime(1, newIn);
+			updateStmt.setTime(2, newOut);
+			updateStmt.setTime(3, newBreakStart);
+			updateStmt.setTime(4, newBreakEnd);
+			updateStmt.setInt(5, item.getEditId());
+
+			//Execute statement
+			int numAffectedRow = updateStmt.executeUpdate();
+			if(numAffectedRow == 0){
+				throw new SQLException(String.format(
+					"No record updated for ClockEditId = %d",
+					item.getEditId()
+				));
+			}
+
+			//Update item to reflect changes
+			item.setIn(newIn);
+			item.setOut(newOut);
+			item.setBreakStart(newBreakStart);
+			item.setBreakEnd(newBreakEnd);
+
+			return item;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (connection != null) {
+				connection.close();
+			}
+			if (updateStmt != null) {
+				updateStmt.close();
+			}
+		}
+	}
 
 	/**
 	 * Retrieve a clock edit record by ID.

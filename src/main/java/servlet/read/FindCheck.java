@@ -93,7 +93,7 @@ public class FindCheck extends HttpServlet {
         	
         	req.setAttribute("checks", checks);
             
-            req.getRequestDispatcher("/FindCheck.jsp").forward(req, resp);
+            req.getRequestDispatcher("/read/FindCheck.jsp").forward(req, resp);
         } catch(ParseException e) {
         	messages.put("success", "Please provide a correct date format (yyyy-mm-dd)");
         } catch(SQLException e) {

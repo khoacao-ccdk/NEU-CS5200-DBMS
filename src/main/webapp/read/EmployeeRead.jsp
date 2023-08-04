@@ -2,44 +2,55 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>All Employee Record</title>
 </head>
 <body>
-	This is used to find if there is an error in the time clock.
-	<form action="../employeeread" method="get">
-		<h1>Search for a time period</h1>
-		Enter employee ID: <input type="text" name="employeeid"> 
-		<input type="submit">
-	</form>
-
-	<h1>Incorrect time clock records</h1>
+	<h1>All Employee Record</h1>
+	<br/>
 	<table border="1">
 		<tr>
-			<th>Time Clock ID</th>
 			<th>Employee ID</th>
-			<th>Date</th>
-			<th>Clock In Time</th>
-			<th>Clock Out Time</th>
-			<th>Unpaid Break in Minute</th>
+			<th>First Name</th>
+			<th>LastName</th>
+			<th>SSN</th>
+			<th>DOB</th>
+			<th>Email</th>
+			<th>Phone</th>
+			<th>Street1</th>
+			<th>Street2</th>
+			<th>City</th>
+			<th>State</th>
+			<th>Zip</th>
+			<th>Role</th>
+			<th>Wage</th>
+			<th/>
 		</tr>
-		<c:forEach items="${timeClocks}" var="timeClock">
+		<c:forEach items="${employees}" var="employees">
 			<tr>
-				<td><c:out value="${timeClock.getTimeClockId()}" /></td>
-				<td><c:out value="${timeClock.getEmployeeId()}" /></td>
+				<td><c:out value="${employees.getEmployeeId()}" /></td>
+				<td><c:out value="${employees.getFirstName()}" /></td>
+				<td><c:out value="${employees.getLastName()}" /></td>
+				<td><c:out value="${employees.getSSN()}" /></td>
 				<td>
 					<%--  <fmt:parseDate value="${timeClock.getDate()}" pattern="yyyy-MM-dd" var="parsedDate" type="date" />
 					<fmt:formatDate value="${parsedDate}" type="date" /> --%>
-					<c:out value="${timeClock.getDate().plusDays(1)}" /> 
+					<c:out value="${employees.getDOB()}" /> 
 				</td>
-				<td><fmt:formatDate type="time" value="${timeClock.getClockInTime()}" timeZone="GMT-7" pattern="HH:mm:ss" /></td>
-				<td><fmt:formatDate type="time" value="${timeClock.getClockOutTime()}" timeZone="GMT-7" pattern="HH:mm:ss" /></td>
-				<td><c:out value="${timeClock.getUnpaidBreakMin()}" /></td>
+				<td><c:out value="${employees.getEmail()}" /></td>
+				<td><c:out value="${employees.getPhone()}" /></td>
+				<td><c:out value="${employees.getStreet1()}" /></td>
+				<td><c:out value="${employees.getStreet2()}" /></td>
+				<td><c:out value="${employees.getCity()}" /></td>
+				<td><c:out value="${employees.getState()}" /></td>
+				<td><c:out value="${employees.getZip()}" /></td>
+				<td><c:out value="${employees.getRole()}" /></td>
+				<td><c:out value="${employees.getWage()}" /></td>
+				<td><button><a href="update/EmployeeUpdate.jsp">Update</a></button></td>
 			</tr>
 		</c:forEach>
 	</table>

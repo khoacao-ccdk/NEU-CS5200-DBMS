@@ -9,7 +9,7 @@
 <body>
 This is the payment delete page.
 
-	<form action="paymentdelete" method="post">
+	<form action="../paymentdelete" method="post">
 		Payment ID: <input type="number" name="paymentId"> 
 		<input type="submit">
 	</form>
