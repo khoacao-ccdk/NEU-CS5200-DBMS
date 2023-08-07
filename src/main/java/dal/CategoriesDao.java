@@ -36,7 +36,7 @@ public class CategoriesDao {
 	 * @throws SQLException
 	 */
 	public Categories create(Categories item) throws SQLException {
-		String insertItem = "INSERT INTO Categories(Name) VALUES(?);";
+		String insertItem = "INSERT INTO Categories(CategoryId, CategoryName) VALUES(?,?);";
 		Connection connection = null;
 		PreparedStatement insertStmt = null;
 
@@ -44,17 +44,16 @@ public class CategoriesDao {
 			connection = connectionManager.getConnection();
 			insertStmt = connection.prepareStatement(insertItem, Statement.RETURN_GENERATED_KEYS);
 
-			insertStmt.setString(1, item.getName());
+			insertStmt.setInt(1, item.getCategoryId());
+			insertStmt.setString(1, item.getCategoryName());
 
 			// Execute statement
 			insertStmt.executeUpdate();
 
 			// Update id for the menu item since it was auto-generated from the database
-			ResultSet generatedKeys = insertStmt.getGeneratedKeys();
-			if (generatedKeys.next()) {
-				item.setCategoryId(generatedKeys.getInt(1));
-			} else {
-				throw new SQLException("Creating menu item failed, no ID obtained.");
+			int numCreated = insertStmt.executeUpdate();
+			if(numCreated == 0) {
+				throw new SQLException("There was an error creating categories record");
 			}
 
 			return item;
@@ -79,7 +78,7 @@ public class CategoriesDao {
 	 * @throws SQLException
 	 */
 	public Categories updateCategory(Categories item, String newName) throws SQLException {
-		String updateItem = "UPDATE Categories " + "SET Name = ? " + "WHERE CategoryId = ?;";
+		String updateItem = "UPDATE Categories " + "SET CategoryName = ? " + "WHERE CategoryId = ?;";
 		Connection connection = null;
 		PreparedStatement updateStmt = null;
 
@@ -97,7 +96,7 @@ public class CategoriesDao {
 			}
 
 			// Update object to reflect changes
-			item.setName(newName);
+			item.setCategoryName(newName);
 
 			return item;
 		} catch (SQLException e) {
@@ -121,7 +120,7 @@ public class CategoriesDao {
 	 */
 	public List<Categories> getAllCategories() throws SQLException {
 		List<Categories> items = new ArrayList<>();
-		String selectCategory = "SELECT CategoryId, Name " + "FROM Categories;";
+		String selectCategory = "SELECT CategoryId, CategoryName " + "FROM Categories;";
 
 		Connection connection = null;
 		PreparedStatement selectStmt = null;
@@ -133,7 +132,7 @@ public class CategoriesDao {
 			results = selectStmt.executeQuery();
 			while (results.next()) {
 				int resultCategoryId = results.getInt("CategoryId");
-				String name = results.getString("Name");
+				String name = results.getString("CategoryName");
 
 				Categories item = new Categories(resultCategoryId, name);
 				items.add(item);
@@ -163,7 +162,7 @@ public class CategoriesDao {
 	 */
 	public Categories getCategoryById(int categoryId) throws SQLException {
 		String selectCategory = 
-				"SELECT CategoryId, Name " 
+				"SELECT CategoryId, CategoryName " 
 				+ "FROM Categories " 
 				+ "WHERE CateogryId=?;";
 
@@ -178,7 +177,7 @@ public class CategoriesDao {
 			results = selectStmt.executeQuery();
 			if (results.next()) {
 				int resultCategoryId = results.getInt("CategoryId");
-				String name = results.getString("Name");
+				String name = results.getString("CategoryName");
 
 				Categories item = new Categories(resultCategoryId, name);
 				return item;
@@ -208,7 +207,7 @@ public class CategoriesDao {
 	public List<Categories> getCategoriesByName(String name) throws SQLException {
 		List<Categories> items = new ArrayList<>();
 		String selectCategories = 
-				"SELECT CategoriesId, Name " 
+				"SELECT CategoryId, CategoryName " 
 				+ "FROM Categories "
 				+ "WHERE Name LIKE \'%?%\'";
 
@@ -223,7 +222,7 @@ public class CategoriesDao {
 			results = selectStmt.executeQuery();
 			while (results.next()) {
 				int categoryId = results.getInt("CategoryId");
-				String resultName = results.getString("Name");
+				String resultName = results.getString("CategoryName");
 
 				Categories item = new Categories(categoryId, resultName);
 				items.add(item);

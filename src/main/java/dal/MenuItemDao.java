@@ -139,7 +139,7 @@ public class MenuItemDao {
 	public List<MenuItem> getAllItem() throws SQLException {
 		List<MenuItem> items = new ArrayList<>();
 		String selectMenuItem = "SELECT ItemId, ItemName, ItemPrice, CategoryId "
-				+ "FROM MenuItem;";
+				+ "FROM MenuItems;";
 		
 		Connection connection = null;
 		PreparedStatement selectStmt = null;
@@ -182,7 +182,7 @@ public class MenuItemDao {
 	 */
 	public MenuItem getItemById(int itemId) throws SQLException {
 		String selectMenuItem = "SELECT ItemId, ItemName, ItemPrice, CategoryId "
-				+ "FROM MenuItem WHERE ItemId=?;";
+				+ "FROM MenuItems WHERE ItemId=?;";
 		
 		Connection connection = null;
 		PreparedStatement selectStmt = null;
@@ -227,7 +227,7 @@ public class MenuItemDao {
 	public List<MenuItem> getItemFromName(String itemName) throws SQLException {
 		List<MenuItem> items = new ArrayList<>();
 		String selectMenuItem = "SELECT ItemId, ItemName, ItemPrice, CategoryId "
-				+ "FROM MenuItem "
+				+ "FROM MenuItems "
 				+ "WHERE ItemName LIKE \'%?%\'";
 		
 		Connection connection = null;
@@ -271,7 +271,7 @@ public class MenuItemDao {
 	 * @throws SQLException
 	 */
 	public MenuItem delete(MenuItem item) throws SQLException {
-		String deleteUser = "DELETE FROM MenuItem WHERE ItemId=?;";
+		String deleteUser = "DELETE FROM MenuItems WHERE ItemId=?;";
 		Connection connection = null;
 		PreparedStatement deleteStmt = null;
 		try {

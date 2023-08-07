@@ -51,7 +51,7 @@ public class EmployeeUpdate extends HttpServlet{
 			throw new IOException(e);
         }
     
-        req.getRequestDispatcher("/EmployeeUpdate.jsp").forward(req, resp);
+        req.getRequestDispatcher("/update/EmployeeUpdate.jsp").forward(req, resp);
 	}
 	
 	@Override

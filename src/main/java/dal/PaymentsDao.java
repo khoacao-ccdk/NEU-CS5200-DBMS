@@ -143,7 +143,7 @@ public class PaymentsDao {
 	 */
 	public List<Payments> getPaymentsByCheck(int checkId, Date date) throws SQLException {
 		List<Payments> items = new ArrayList<>();
-		String selectCheckItem = "SELECT PaymentId, CheckId, Date, Time, PaymentMethod, CCNumber, AuthNumber, PaymentAmount, Tips, EmployeeId "
+		String selectCheckItem = "SELECT PaymentId, CheckId, Date, Time, PayMethod, CCNumber, AuthNumber, PayAmount, Tips, EmployeeId "
 				+ "FROM Payments " + "WHERE CheckId=? AND Date=?;";
 		
 		Connection connection = null;
@@ -162,10 +162,10 @@ public class PaymentsDao {
 				int resultCheckId = results.getInt("CheckId");
 				Date resultDate = results.getDate("Date");
 				Time time = results.getTime("Time");
-				String paymentMethod = results.getString("PaymentMethod");
+				String paymentMethod = results.getString("PayMethod");
 				String ccNumber = results.getString("CCNumber");
 				String authNumber = results.getString("AuthNumber");
-				float paymentAmount = results.getFloat("PaymentAmount");
+				float paymentAmount = results.getFloat("PayAmount");
 				float tips = results.getFloat("Tips");
 				int employeeId = results.getInt("EmployeeId");
 
@@ -198,7 +198,7 @@ public class PaymentsDao {
 	 */
 	public List<Payments> getPaymentsByDate(LocalDate date) throws SQLException {
 		List<Payments> items = new ArrayList<>();
-		String selectCheckItem = "SELECT PaymentId, CheckId, Date, Time, PaymentMethod, CCNumber, AuthNumber, PaymentAmount, Tips, EmployeeId "
+		String selectCheckItem = "SELECT PaymentId, CheckId, Date, Time, PayMethod, CCNumber, AuthNumber, PayAmount, Tips, EmployeeId "
 				+ "FROM Payments " + "WHERE Date=?;";
 		
 		Connection connection = null;
@@ -216,10 +216,10 @@ public class PaymentsDao {
 				int checkId = results.getInt("CheckId");
 				Date resultDate = results.getDate("Date");
 				Time time = results.getTime("Time");
-				String paymentMethod = results.getString("PaymentMethod");
+				String paymentMethod = results.getString("PayMethod");
 				String ccNumber = results.getString("CCNumber");
 				String authNumber = results.getString("AuthNumber");
-				float paymentAmount = results.getFloat("PaymentAmount");
+				float paymentAmount = results.getFloat("PayAmount");
 				float tips = results.getFloat("Tips");
 				int employeeId = results.getInt("EmployeeId");
 

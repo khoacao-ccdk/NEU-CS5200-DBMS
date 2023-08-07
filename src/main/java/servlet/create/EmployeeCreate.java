@@ -29,6 +29,12 @@ public class EmployeeCreate extends HttpServlet {
 	}
 	
 	@Override
+	public void doGet(HttpServletRequest req, HttpServletResponse resp)
+    		throws ServletException, IOException {
+		req.getRequestDispatcher("/create/EmployeeCreate.jsp").forward(req, resp);
+	}
+	
+	@Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp)
     		throws ServletException, IOException {
         // Map for storing messages.
@@ -37,23 +43,23 @@ public class EmployeeCreate extends HttpServlet {
     
         try {
         	//Read all information from the request
-	    	int id = Integer.parseInt(req.getParameter("employeeid"));
-	    	String firstName = req.getParameter("firstname");
-	    	String lastName = req.getParameter("lastname");
-	    	String ssn = req.getParameter("ssn");
-	    	String dobString = req.getParameter("dob");
-	    	String email = req.getParameter("email");
-	    	String phone = req.getParameter("phone");
-	    	String street1 = req.getParameter("street1");
-	    	String street2 = req.getParameter("street2");
-	    	String city = req.getParameter("city");
-	    	String state = req.getParameter("state");
-	    	String zip = req.getParameter("zip");
-	    	boolean status = Boolean.valueOf(req.getParameter("status"));
-	    	String role = req.getParameter("role");
+	    	int id = Integer.parseInt(req.getParameter("EmployeeId"));
+	    	String firstName = req.getParameter("Firstname");
+	    	String lastName = req.getParameter("LastName");
+	    	String ssn = req.getParameter("SSN");
+	    	String dobString = req.getParameter("DOB");
+	    	String email = req.getParameter("Email");
+	    	String phone = req.getParameter("Phone");
+	    	String street1 = req.getParameter("Street1");
+	    	String street2 = req.getParameter("Street2");
+	    	String city = req.getParameter("City");
+	    	String state = req.getParameter("State");
+	    	String zip = req.getParameter("Zip");
+	    	boolean status = Boolean.valueOf(req.getParameter("Status"));
+	    	String role = req.getParameter("Role");
 			int wage = Integer.parseInt(req.getParameter("wage"));
 			
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	    	Date dob = new Date(sdf.parse(dobString).getTime());
 			
 			if(firstName == null || firstName.trim().isEmpty()) {

@@ -183,10 +183,10 @@ public class ClockEditsDao {
 			results = selectStmt.executeQuery();
 			if (results.next()) {
 				// Retrieve values
-				int clockEditId = results.getInt("EditId");
+				int clockEditId = results.getInt("ClockEditId");
 				int resultTimeClockId = results.getInt("TimeClockId");
-				Time in = results.getTime("In");
-				Time out = results.getTime("Out");
+				Time in = results.getTime("ClockIn");
+				Time out = results.getTime("ClockOut");
 				Time breakStart = results.getTime("BreakStart");
 				Time breakEnd = results.getTime("BreakEnd");
 

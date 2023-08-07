@@ -31,40 +31,7 @@ public class FindCheck extends HttpServlet {
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		// Map for storing messages.
-        Map<String, String> messages = new HashMap<String, String>();
-        req.setAttribute("messages", messages);
-
-        List<Check> checks = new ArrayList<Check>();
-        
-        // Retrieve and validate the given date Strings
-        String start = req.getParameter("start");
-        String end = req.getParameter("end");
-        
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
-        try {
-        	//Try to convert the two provided string to SQL date format
-        	Date startDate = new Date(sdf.parse(start).getTime());
-        	Date endDate = new Date(sdf.parse(end).getTime());
-        	
-        	checks = checkDao.getCheckByDateRange(startDate, endDate);
-        	
-        	messages.put("success", String.format("Displaying results for date range %s - %s", 
-        			start, end));
-        	
-        	// Save the previous search term, so it can be used as the default
-        	// in the input box when rendering FindCheck.jsp.
-        	messages.put("previousStart", start);
-        	messages.put("previousEnd", end);
-        	
-        	req.setAttribute("checks", checks);
-            
-            req.getRequestDispatcher("/FindCheck.jsp").forward(req, resp);
-        } catch(ParseException e) {
-        	messages.put("success", "Please provide a correct date format (yyyy-mm-dd)");
-        } catch(SQLException e) {
-        	throw new IOException(e);
-        }
+		req.getRequestDispatcher("/read/FindCheck.jsp").forward(req, resp);
 	}
 	
 	@Override
@@ -92,6 +59,8 @@ public class FindCheck extends HttpServlet {
         			start, end));
         	
         	req.setAttribute("checks", checks);
+        	messages.put("previousStart", start);
+        	messages.put("previousEnd", end);
             
             req.getRequestDispatcher("/read/FindCheck.jsp").forward(req, resp);
         } catch(ParseException e) {

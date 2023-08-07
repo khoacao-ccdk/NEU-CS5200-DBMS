@@ -1,6 +1,7 @@
 package servlet.read;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -30,35 +31,33 @@ public class TimeClockRead extends HttpServlet {
 
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		// Map for storing messages.
-		Map<String, String> messages = new HashMap<String, String>();
-		req.setAttribute("messages", messages);
+	    // Map for storing messages.
+	    Map<String, String> messages = new HashMap<String, String>();
+	    req.setAttribute("messages", messages);
 
-		List<TimeClocks> timeClocks = new ArrayList<>();
+	    List<TimeClocks> timeClocks = new ArrayList<>();
 
-		// Retrieve and validate the given date Strings
-		String startDateString = req.getParameter("start");
-		String endDateString = req.getParameter("end");
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		try {
-			// Try to convert the two provided string to SQL date format
-			LocalDate start = LocalDate.parse(startDateString, formatter);
-			LocalDate end = LocalDate.parse(endDateString, formatter);
+	    // Retrieve and validate the given date Strings
+	    String startDateString = req.getParameter("start");
+	    String endDateString = req.getParameter("end");
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	    try {
+	        if (startDateString != null && endDateString != null) {
+	            // Try to convert the two provided strings to SQL date format
+	            LocalDate start = LocalDate.parse(startDateString, formatter);
+	            LocalDate end = LocalDate.parse(endDateString, formatter);
 
-			for (LocalDate currentDate = start; currentDate.isBefore(end.plusDays(1)); currentDate = currentDate.plusDays(1)) {
-				timeClocks.addAll(timeClocksDao.getTimeClockByDate(currentDate));
-			}
+	            timeClocks.addAll(timeClocksDao.getIncorrectTimeClock(Date.valueOf(start), Date.valueOf(end)));
 
-			messages.put("success",
-					String.format("Displaying time clock for %s - %s", startDateString, endDateString));
-
-			req.setAttribute("timeClocks", timeClocks);
-			req.setAttribute("previousStart", startDateString);
-			req.setAttribute("previousEnd", endDateString);
-			req.getRequestDispatcher("/read/EmployeeTimeClock.jsp").forward(req, res);
-		} catch (SQLException e) {
-			throw new IOException(e);
-		}
+	            messages.put("success",
+	                    String.format("Displaying time clock for %s - %s", startDateString, endDateString));
+	        } 
+	        req.setAttribute("timeClocks", timeClocks);
+	        req.setAttribute("previousStart", startDateString);
+	        req.setAttribute("previousEnd", endDateString);
+	        req.getRequestDispatcher("/read/EmployeeTimeClock.jsp").forward(req, res);
+	    } catch (SQLException e) {
+	        throw new IOException(e);
+	    }
 	}
-
 }

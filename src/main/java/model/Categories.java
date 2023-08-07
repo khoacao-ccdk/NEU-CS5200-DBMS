@@ -9,25 +9,17 @@ import java.util.Objects;
  */
 public class Categories {
 	private int categoryId;
-	private String name;
-	
-	/**
-	 * Constructor used when creating a new category in the database, where categoryId is unknown.
-	 */
-	public Categories(String name) {
-		super();
-		this.name = name;
-	}
+	private String categoryName;
 
 	/**
 	 * Constructor used when retrieving a category in the database where all parameters are known.
 	 * @param categoryId
 	 * @param name
 	 */
-	public Categories(int categoryId, String name) {
+	public Categories(int categoryId, String categoryName) {
 		super();
 		this.categoryId = categoryId;
-		this.name = name;
+		this.categoryName = categoryName;
 	}
 
 	public int getCategoryId() {
@@ -38,17 +30,17 @@ public class Categories {
 		this.categoryId = categoryId;
 	}
 
-	public String getName() {
-		return name;
+	public String getCategoryName() {
+		return categoryName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(categoryId, name);
+		return Objects.hash(categoryId, categoryName);
 	}
 
 	@Override
@@ -60,12 +52,12 @@ public class Categories {
 		if (getClass() != obj.getClass())
 			return false;
 		Categories other = (Categories) obj;
-		return categoryId == other.categoryId && Objects.equals(name, other.name);
+		return categoryId == other.categoryId && Objects.equals(categoryName, other.categoryName);
 	}
 
 	@Override
 	public String toString() {
-		return "Categories [categoryId=" + categoryId + ", name=" + name + "]";
+		return "Categories [categoryId=" + categoryId + ", name=" + categoryName + "]";
 	}
 	
 }

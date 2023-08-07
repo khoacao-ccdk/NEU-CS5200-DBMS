@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import dal.CheckItemDao;
 import model.CheckItem;
 
-@WebServlet("/CheckItemRead")
+@WebServlet("/checkitemread")
 public class CheckItemRead extends HttpServlet {
 	protected CheckItemDao checkItemDao;
 	
@@ -54,7 +54,7 @@ public class CheckItemRead extends HttpServlet {
         	
         	req.setAttribute("checkitems", checkItems);
             
-            req.getRequestDispatcher("/read/FindPayments.jsp").forward(req, resp);
+            req.getRequestDispatcher("/read/CheckItems.jsp").forward(req, resp);
         } catch(NumberFormatException e) { 
         	messages.put("success", "Please provide a correct checkId format");
         } catch(ParseException e) {

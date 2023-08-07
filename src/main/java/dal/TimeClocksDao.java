@@ -71,7 +71,7 @@ public class TimeClocksDao {
 	}
 	
 	public TimeClocks getTimeClockById(int timeClockId) throws SQLException {
-		String selectTimeClock = "SELECT TimeClockId, EmployeeId, Date, In, Out, UnpaidBreak "
+		String selectTimeClock = "SELECT TimeClockId, EmployeeId, Date, ClockInTime, ClockOutTime, UnpaidBreakMin "
 				+ "FROM TimeClocks " + "WHERE TimeClockId=?;";
 
 		Connection connection = null;
@@ -88,9 +88,9 @@ public class TimeClocksDao {
 				int resultTimeClockId = results.getInt("TimeClockId");
 				int employeeId = results.getInt("EmployeeId");
 				LocalDate date = results.getDate("Date").toLocalDate();
-				Time in = results.getTime("In");
-				Time out = results.getTime("Out");
-				int unpaidBreak = results.getInt("UnpaidBreak");
+				Time in = results.getTime("ClockInTime");
+				Time out = results.getTime("ClockOutTime");
+				int unpaidBreak = results.getInt("UnpaidBreakMin");
 
 				TimeClocks item = new TimeClocks(resultTimeClockId, employeeId, date, in, out, unpaidBreak);
 
@@ -162,10 +162,10 @@ public class TimeClocksDao {
 				+ "(SELECT T.* "
 				+ "FROM Employees E INNER JOIN Timeclocks T "
 				+ "ON E.EmployeeId = T.EmployeeId "
-				+ "WHERE ClockInTime < '08:00:00' "
+				+ "WHERE (ClockInTime < '08:00:00' "
 				+ "OR ClockInTime > '23:00:00' "
 				+ "OR ClockOutTime > '23:00:00' "
-				+ "OR ClockOutTime < '08:00:00' "
+				+ "OR ClockOutTime < '08:00:00') "
 				+ "AND E.Status = true "
 				+ "AND T.DATE BETWEEN ? AND ?) AS INVALID "
 				+ "LEFT OUTER JOIN ClockEdits Edit "

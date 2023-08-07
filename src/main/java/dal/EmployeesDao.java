@@ -64,7 +64,10 @@ public class EmployeesDao {
 			insertStmt.setObject(14, employee.getRole(), Types.VARCHAR);
 			insertStmt.setObject(15, employee.getWage(), Types.DECIMAL);
 
-			insertStmt.executeUpdate();
+			int numCreated = insertStmt.executeUpdate();
+			if(numCreated == 0) {
+				throw new SQLException("There was an error creating employee record");
+			}
 
 			return employee;
 		} catch (SQLException e) {
@@ -296,20 +299,20 @@ public class EmployeesDao {
 			connection = connectionManager.getConnection();
 			updateStmt = connection.prepareStatement(update);
 		
-			updateStmt.setString(1, employee.getFirstName());
-			updateStmt.setString(2, employee.getLastName());
-			updateStmt.setObject(3, employee.getSSN(), Types.VARCHAR);
-			updateStmt.setObject(4, employee.getDOB(), Types.DATE);
-			updateStmt.setObject(5, employee.getEmail(), Types.VARCHAR);
-			updateStmt.setObject(6, employee.getPhone(), Types.VARCHAR);
-			updateStmt.setObject(7, employee.getStreet1(), Types.VARCHAR);
-			updateStmt.setObject(8, employee.getStreet2(), Types.VARCHAR);
-			updateStmt.setObject(9, employee.getCity(), Types.VARCHAR);
-			updateStmt.setObject(10, employee.getState(), Types.VARCHAR);
-			updateStmt.setObject(11, employee.getZip(), Types.VARCHAR);
-			updateStmt.setObject(12, employee.getStatus(), Types.BOOLEAN);
-			updateStmt.setObject(13, employee.getRole(), Types.VARCHAR);
-			updateStmt.setObject(14, employee.getWage(), Types.DECIMAL);
+			updateStmt.setString(1, newFirstName);
+			updateStmt.setString(2, newLastName);
+			updateStmt.setObject(3, newSSN, Types.VARCHAR);
+			updateStmt.setObject(4, newDOB, Types.DATE);
+			updateStmt.setObject(5, newEmail, Types.VARCHAR);
+			updateStmt.setObject(6, newPhone, Types.VARCHAR);
+			updateStmt.setObject(7, newStreet1, Types.VARCHAR);
+			updateStmt.setObject(8, newStreet2, Types.VARCHAR);
+			updateStmt.setObject(9, newCity, Types.VARCHAR);
+			updateStmt.setObject(10, newState, Types.VARCHAR);
+			updateStmt.setObject(11, newZip, Types.VARCHAR);
+			updateStmt.setObject(12, newStatus, Types.BOOLEAN);
+			updateStmt.setObject(13, newRole, Types.VARCHAR);
+			updateStmt.setObject(14, newWage, Types.DECIMAL);
 			updateStmt.setInt(15, employee.getEmployeeId());
 
 			//Execute statement

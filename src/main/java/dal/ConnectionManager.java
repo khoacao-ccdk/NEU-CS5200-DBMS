@@ -36,7 +36,7 @@ public class ConnectionManager {
 	// User to connect to your database instance. By default, this is "root2".
 	private final String user = "root";
 	// Password for the user.
-	private final String password = "Sunny70Degree";
+	private final String password = "root";
 	// URI to your database server. If running on the same machine, then this is "localhost".
 	private final String hostName = "localhost";
 	// Port to your database server. By default, this is 3307.
@@ -44,7 +44,7 @@ public class ConnectionManager {
 	// Name of the MySQL schema that contains your tables.
 	private final String schema = "RestaurantManagementSystem";
 	// Default timezone for MySQL server.
-	private final String timezone = "UTC";
+	private final String timezone = "America/Los_Angeles";
 
 	/** Get the connection to the database instance. */
 	public Connection getConnection() throws SQLException {

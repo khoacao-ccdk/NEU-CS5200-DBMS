@@ -1,33 +1,52 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Update a User</title>
+    <meta charset="UTF-8">
+    <title>Employee Update</title>
 </head>
 <body>
-	<h1>Update Employee</h1>
-	<form action="../employeeupdate" method="post">
-		<p>
-			<label for="username">UserName</label>
-			<input id="username" name="username" value="${fn:escapeXml(param.username)}">
-		</p>
-		<p>
-			<label for="lastname">New LastName</label>
-			<input id="lastname" name="lastname" value="">
-		</p>
-		<p>
-			<input type="submit">
-		</p>
-	</form>
-	<br/><br/>
-	<p>
-		<span id="successMessage"><b>${messages.success}</b></span>
-	</p>
+    <h1>Update Employee</h1>
+    <form method="post" action="${pageContext.request.contextPath}/employeeupdate">
+        <input type="hidden" name="EmployeeId" value="${Employee.getEmployeeId()}">
+        <label for="Firstname">First Name:</label>
+        <input type="text" name="Firstname" value="${Employee.getFirstName()}" required><br>
+        <label for="LastName">Last Name:</label>
+        <input type="text" name="LastName" value="${Employee.getLastName()}" required><br>
+        <label for="SSN">SSN:</label>
+        <input type="text" name="SSN" value="${Employee.getSSN()}"><br>
+        <label for="DOB">Date of Birth:</label>
+        <input type="date" name="DOB" value="${Employee.getDOB()}" required><br>
+        <label for="Email">Email:</label>
+        <input type="email" name="Email" value="${Employee.getEmail()}"><br>
+        <label for="Phone">Phone:</label>
+        <input type="tel" name="Phone" value="${Employee.getPhone()}"><br>
+        <label for="Street1">Street 1:</label>
+        <input type="text" name="Street1" value="${Employee.getStreet1()}"><br>
+        <label for="Street2">Street 2:</label>
+        <input type="text" name="Street2" value="${Employee.getStreet2()}"><br>
+        <label for="City">City:</label>
+        <input type="text" name="City" value="${Employee.getCity()}"><br>
+        <label for="State">State:</label>
+        <input type="text" name="State" value="${Employee.getState()}"><br>
+        <label for="Zip">Zip:</label>
+        <input type="text" name="Zip" value="${Employee.getZip()}"><br>
+        <label for="Status">Status:</label>
+        <select name="Status">
+            <option value="true" ${Employee.isStatus() ? 'selected' : ''}>Active</option>
+            <option value="false" ${!Employee.isStatus() ? 'selected' : ''}>Inactive</option>
+        </select><br>
+        <label for="Role">Role:</label>
+        <input type="text" name="Role" value="${Employee.getRole()}" required><br>
+        <label for="wage">Wage:</label>
+        <input type="number" name="wage" value="${Employee.getWage()}" required><br>
+        <button type="submit">Update Employee</button>
+    </form>
+    <p>${messages.success}</p>
+    
+     <!-- Back button -->
+    <form method="get" action="${pageContext.request.contextPath}/employeeread">
+        <button type="submit">Back to Employee List</button>
+    </form>
 </body>
 </html>

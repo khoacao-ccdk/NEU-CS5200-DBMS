@@ -47,14 +47,12 @@ public class FindPayments extends HttpServlet {
         	int checkId = Integer.parseInt(checkIdString);
         	Date date = new Date(sdf.parse(dateString).getTime());
         	
-        	payments = paymentDao.getPaymentsByCheck(checkId, date);
+        	payments.addAll(paymentDao.getPaymentsByCheck(checkId, date));
         	
-        	messages.put("success", String.format("Displaying results for checkId %d at date  - %s", 
+        	messages.put("success", String.format("Displaying results for checkId %d at date - %s", 
         			checkId, dateString));
         	
         	req.setAttribute("payments", payments);
-            
-            req.getRequestDispatcher("/read/FindPayments.jsp").forward(req, resp);
         } catch(NumberFormatException e) { 
         	messages.put("success", "Please provide a correct checkId format");
         } catch(ParseException e) {
@@ -62,5 +60,6 @@ public class FindPayments extends HttpServlet {
         } catch(SQLException e) {
         	throw new IOException(e);
         }
+        req.getRequestDispatcher("/read/FindPayments.jsp").forward(req, resp);
 	}
 }

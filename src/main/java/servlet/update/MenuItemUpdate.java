@@ -3,6 +3,7 @@ package servlet.update;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.annotation.*;
@@ -11,17 +12,26 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dal.CategoriesDao;
 import dal.MenuItemDao;
+import model.Categories;
 import model.CheckItem;
 import model.MenuItem;
 
 @WebServlet("/menuitemupdate")
 public class MenuItemUpdate extends HttpServlet{
 	protected MenuItemDao menuItemDao;
+	protected List<Categories> categories;
 	
 	@Override
 	public void init() throws ServletException {
 		menuItemDao = MenuItemDao.getInstance();
+		try {
+			categories = CategoriesDao.getInstance().getAllCategories();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}// Retrieve the list of categories from the database
 	}
 	
 	@Override
@@ -41,7 +51,10 @@ public class MenuItemUpdate extends HttpServlet{
     		} else {
     			req.setAttribute("MenuItem", menuItem);
     		}
-  
+    		
+    		// Inside your MenuItemUpdate servlet's doGet method
+    		
+    		req.setAttribute("categories", categories);  
 		} catch (NumberFormatException e){
 			messages.put("success", "Please enter a valid MenuItemId.");
 		} catch (SQLException e) {
@@ -49,7 +62,7 @@ public class MenuItemUpdate extends HttpServlet{
 			throw new IOException(e);
         }
     
-        req.getRequestDispatcher("/MenuItemUpdate.jsp").forward(req, resp);
+        req.getRequestDispatcher("/update/MenuItemUpdate.jsp").forward(req, resp);
 	}
 	
 	@Override
@@ -61,9 +74,9 @@ public class MenuItemUpdate extends HttpServlet{
         
         // Retrieve employee and validate.
         try {
-			int checkItemId = Integer.parseInt(req.getParameter("CheckItemId"));
+			int menuItemId = Integer.parseInt(req.getParameter("MenuItemId"));
 			
-    		MenuItem menuItem = menuItemDao.getItemById(checkItemId);
+    		MenuItem menuItem = menuItemDao.getItemById(menuItemId);
     		if(menuItem == null) {
     			messages.put("success", "CheckItemId does not exist, no update to perform");
     		} else {
@@ -77,6 +90,8 @@ public class MenuItemUpdate extends HttpServlet{
     			}	
     			menuItem = menuItemDao.updateItem(menuItem, newItemName, newItemPrice, newCategoryId);
     			req.setAttribute("MenuItem", menuItem);
+    			req.setAttribute("categories", categories);  
+    			messages.put("success", "Successfully updated menu item with id: " + menuItemId);
     		}
 		} catch (NumberFormatException e){
 			messages.put("success", "Please enter a valid price/categotyId number.");
@@ -86,6 +101,6 @@ public class MenuItemUpdate extends HttpServlet{
 			throw new IOException(e);
         } 
         
-        req.getRequestDispatcher("/MenuItemUpdate.jsp").forward(req, resp);
+        req.getRequestDispatcher("/update/MenuItemUpdate.jsp").forward(req, resp);
 	}
 }

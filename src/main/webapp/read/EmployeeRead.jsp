@@ -10,7 +10,10 @@
 <title>All Employee Record</title>
 </head>
 <body>
+    <button style="position: absolute; top: 10px; right: 10px;"><a href="<%=request.getContextPath()%>/">Back to Home</a></button>
 	<h1>All Employee Record</h1>
+	<button><a href="employeecreate">Create an Employee Record</a></button>
+	<p>${messages.success}</p>
 	<br/>
 	<table border="1">
 		<tr>
@@ -26,6 +29,7 @@
 			<th>City</th>
 			<th>State</th>
 			<th>Zip</th>
+			<th>Status</th>
 			<th>Role</th>
 			<th>Wage</th>
 			<th/>
@@ -48,9 +52,10 @@
 				<td><c:out value="${employees.getCity()}" /></td>
 				<td><c:out value="${employees.getState()}" /></td>
 				<td><c:out value="${employees.getZip()}" /></td>
+				<td><c:out value="${employees.getStatus()}" /></td>
 				<td><c:out value="${employees.getRole()}" /></td>
 				<td><c:out value="${employees.getWage()}" /></td>
-				<td><button><a href="update/EmployeeUpdate.jsp">Update</a></button></td>
+				<td><button><a href="employeeupdate?EmployeeId=<c:out value="${employees.getEmployeeId()}"/>">Update</a></button></td>
 			</tr>
 		</c:forEach>
 	</table>
